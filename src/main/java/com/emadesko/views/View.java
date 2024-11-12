@@ -1,5 +1,6 @@
 package com.emadesko.views;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.emadesko.services.Service;
@@ -19,7 +20,7 @@ public class View <T>{
     
     public void showAll(){
         if (service.getAll().isEmpty()) {
-            System.out.println(this.objet+" n'existe");
+            System.out.println(this.objet + " n'existe");
         }
         service.getAll().stream().forEach(System.out::println);
     }
@@ -49,5 +50,35 @@ public class View <T>{
         } while (choix<1 || choix>choixSup);
         
         return choix;
+    }
+
+    public T select(List<T> tab, String entityTxt, String entityNone) {
+        if (tab.isEmpty()) {
+            System.out.println(this.objet + " n'existe");
+            return null;
+        }else{
+            tab.stream().forEach(System.out::println);
+            System.out.println("Veuillez entrer l'Id " + entityTxt + " ou 0 pour annuler");
+            int id = scanner.nextInt();
+            scanner.nextLine();
+            if (id != 0) {
+                T entity = this.service.getById(tab, id);
+                boolean ok = entity == null;
+                while (ok) {
+                    System.out.println(entityNone + " ne correspond à ce Id");
+                    System.out.println("Veuillez entrer l'Id " + entityTxt + " ou 0 pour annuler");
+                    id = scanner.nextInt();
+                    scanner.nextLine();
+                    if (id == 0) {
+                        ok = false;
+                    } else {
+                        entity = this.service.getById(tab, id);
+                        ok = entity == null;
+                    }
+                }
+                return entity;
+            }
+            return null;
+        }
     }
 }

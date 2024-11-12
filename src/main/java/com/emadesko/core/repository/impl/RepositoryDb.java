@@ -70,10 +70,10 @@ public class RepositoryDb<T extends Entite> implements DataSource<T> {
 
     
     @Override
-    public T getBy(String champ, Object value) {
+    public T getBy(String condition, Object value) {
         T data=null;
         this.getConnection();
-        String sql="SELECT * FROM " + this.tableName + " where " + champ + " LIKE ?";
+        String sql="SELECT * FROM " + this.tableName + " where " + condition + " ?";
         try {
             this.initPreparedStatment(sql);
             this.ps.setObject(1, value);
@@ -91,7 +91,37 @@ public class RepositoryDb<T extends Entite> implements DataSource<T> {
 
     @Override
     public T getById(int id) {
-        return this.getBy("id", id) ;
+        return this.getBy("id =", id) ;
+    }
+    
+    @Override
+    public void delete(T data) {
+        this.getConnection();
+        String sql="DELETE * FROM " + this.tableName + " where id = ?";
+        try {
+            this.initPreparedStatment(sql);
+            this.ps.setInt(1, data.getId());
+            this.excecuteUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            this.closeConnection();
+        }
+    }
+
+    @Override
+    public void update(T data) {
+        this.getConnection();
+        String sql="UPDATE  " + this.tableName + " SET  where id = ?";
+        try {
+            this.initPreparedStatment(sql);
+            this.ps.setInt(1, data.getId());
+            this.excecuteUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            this.closeConnection();
+        }
     }
 
     @Override

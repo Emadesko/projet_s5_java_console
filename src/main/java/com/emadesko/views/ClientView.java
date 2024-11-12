@@ -1,6 +1,7 @@
 package com.emadesko.views;
 
 import com.emadesko.datas.entities.Client;
+import com.emadesko.datas.entities.Compte;
 import com.emadesko.datas.enums.Role;
 import com.emadesko.services.ClientService;
 
@@ -10,15 +11,13 @@ import java.util.Scanner;
 public class ClientView extends View<Client>{
 
     private ClientService clientService;
-    private CompteView compteView;
 
-    public ClientView(Scanner scanner, ClientService clientService, CompteView compteView) {
+    public ClientView(Scanner scanner, ClientService clientService) {
         super(scanner,clientService,"Aucun client");
         this.clientService = clientService;
-        this.compteView = compteView;
     }
 
-    public Client saisie(){
+    public Client saisie(CompteView compteView){
         
         int choix;
         Boolean ok;
@@ -47,11 +46,22 @@ public class ClientView extends View<Client>{
         choix=super.choixSousMenu("Voulez-vous lui créer un compte?\n1: Oui\n2: Non", 2);
 
         if (choix==1) {
-            client.setCompte(compteView.saisie(Role.Client));
+            Compte compte=compteView.saisie(Role.Client,this);
+            compte.setClient(client);
+            client.setCompte(compte);
         }
 
         clientService.create(client);
         return client;
     }
+
+    public Client chooseClient(){
+        this.objet="Aucun client sans compte";
+        Client client= super.select(clientService.getNonAccountedClients(), "du client", "Aucun client");
+        this.objet="Aucun client";
+        return client;
+    }
+
+    
 
 }

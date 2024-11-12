@@ -2,7 +2,8 @@ package com.emadesko.datas.repositories.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import com.emadesko.core.repository.impl.RepositoryDb;
 import com.emadesko.datas.entities.Client;
@@ -19,17 +20,41 @@ public class ClientRepositoryDb extends RepositoryDb<Client> implements ClientRe
     
     @Override
     public Client getClientBySurnom(String surnom) {
-        return this.getBy("surname", surnom);
+        return this.getBy("surname like ", surnom);
     }
 
     @Override
     public Client getClientByTelephone(String telephone) {
-        return this.getBy("telephone", telephone);
+        return this.getBy("telephone like ", telephone);
     }
 
     @Override
     public String generateSql(Client client) {
         return "INSERT INTO `clients` (`adresse`, `surname`, `telephone`, `createAt`, `updateAt`, `compte_id`) VALUES (?, ?, ?, ?, ?, ?);";
+    }
+
+    @Override
+    public void update(Client client) {
+        this.getConnection();
+        String sql="UPDATE  " + this.tableName + " SET `adresse` = ?, `surname` = ?, `telephone` = ?, `updateAt` = ?, `compte_id` = ?  WHERE id = ?";
+        try {
+            this.initPreparedStatment(sql);
+            this.ps.setString(1, client.getAdresse());
+            this.ps.setString(2, client.getSurname());
+            this.ps.setString(3, client.getTelephone());
+            this.ps.setObject(4, client.getUpdateAt());
+            if (client.getCompte() != null) {
+                this.ps.setInt(5, client.getCompte().getId());
+            }else {
+                this.ps.setNull(5, java.sql.Types.NULL);
+            }
+            this.ps.setInt(6, client.getId());
+            this.excecuteUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            this.closeConnection();
+        }
     }
 
     @Override
@@ -59,5 +84,24 @@ public class ClientRepositoryDb extends RepositoryDb<Client> implements ClientRe
             client.setCompte(compteRepository.getById(rs.getInt("compte_id")));
         }
         return client;
+    }
+
+    @Override
+    public List<Client> getNonAccountedClients() {
+        List<Client> nonAccountedClients=new ArrayList<>();
+        this.getConnection();
+        String sql="SELECT * FROM "+ tableName +" WHERE compte_id IS NULL;";
+        try {
+            this.initPreparedStatment(sql);
+            ResultSet rs=this.excecuteQuerry();
+            while (rs.next()) {
+                nonAccountedClients.add(convertToObject(rs));
+            }
+        } catch (IllegalAccessException | SQLException e) {
+            e.printStackTrace();
+        }finally{
+            this.closeConnection();
+        }
+        return nonAccountedClients;
     }
 }

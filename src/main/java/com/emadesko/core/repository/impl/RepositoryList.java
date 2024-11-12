@@ -24,4 +24,14 @@ public class RepositoryList <T extends Entite> implements Repository<T>{
     public T getById(int id) {
         return this.select().stream().filter(client->client.getId()==id).findFirst().orElse(null);
     }
+
+    @Override
+    public void delete(T data) {
+        this.select().remove(data);
+    }
+
+    @Override
+    public void update(T data) {
+        
+    }
 }

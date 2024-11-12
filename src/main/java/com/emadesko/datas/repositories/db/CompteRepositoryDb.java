@@ -17,12 +17,12 @@ public class CompteRepositoryDb extends RepositoryDb<Compte> implements CompteRe
 
     @Override
     public Compte getCompteByLogin(String login) {
-        return this.getBy("login", login);
+        return this.getBy("login LIKE ", login);
     }
 
     @Override
     public Compte getCompteByEmail(String email) {
-        return this.getBy("email", email);
+        return this.getBy("email LIKE ", email);
     }
 
     @Override

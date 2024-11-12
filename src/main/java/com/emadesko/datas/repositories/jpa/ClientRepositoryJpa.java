@@ -1,5 +1,7 @@
 package com.emadesko.datas.repositories.jpa;
 
+import java.util.List;
+
 import com.emadesko.core.repository.impl.RepositoryJpa;
 import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.repositories.ClientRepository;
@@ -18,5 +20,10 @@ public class ClientRepositoryJpa extends RepositoryJpa<Client> implements Client
     @Override
     public Client getClientBySurnom(String surnom) {
         return super.selectBy("surname" + " LIKE :surnom", "surnom", surnom);
+    }
+
+    @Override
+    public List<Client> getNonAccountedClients() {
+        return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE compte_id IS NULL", clazz).getResultList();
     }
 }

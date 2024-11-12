@@ -27,4 +27,24 @@ public class CompteService implements Service<Compte>{
     public Compte getCompteByEmail(String email){
         return compteRepository.getCompteByEmail(email);
     }
+
+    @Override
+    public Compte getById(int id) {
+        return compteRepository.getById(id);
+    }
+
+    @Override
+    public Compte getById(List<Compte> datas, int id) {
+        return datas.stream().filter(dette->dette.getId()==id).findFirst().orElse(null);
+    }
+
+    @Override
+    public void delete(Compte data) {
+        compteRepository.delete(data);    
+    }
+
+    @Override
+    public void update(Compte data) {
+       compteRepository.update(data);
+    }
 }

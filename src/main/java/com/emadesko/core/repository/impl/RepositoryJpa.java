@@ -52,7 +52,7 @@ public class RepositoryJpa<T extends Entite> implements Repository<T> {
     }
 }
 
-
+    @Override
     public void delete(T object) {
         try {
             em.getTransaction().begin();
@@ -65,7 +65,7 @@ public class RepositoryJpa<T extends Entite> implements Repository<T> {
             e.printStackTrace();
         }
     }
-
+    @Override
     public void update(T object) {
         try {
             em.getTransaction().begin();

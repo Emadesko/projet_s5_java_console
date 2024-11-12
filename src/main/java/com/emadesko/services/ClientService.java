@@ -29,4 +29,28 @@ public class ClientService implements Service<Client>{
         return this.clientRepository.getClientBySurnom(surnom);
     }
 
+    public List <Client> getNonAccountedClients(){
+        return this.clientRepository.getNonAccountedClients();
+    }
+
+    @Override
+    public Client getById(int id) {
+        return this.clientRepository.getById(id);
+    }
+
+    @Override
+    public Client getById(List<Client> datas, int id) {
+        return datas.stream().filter(client->client.getId()==id).findFirst().orElse(null);
+    }
+
+    @Override
+    public void delete(Client data) {
+        clientRepository.delete(data);
+    }
+
+    @Override
+    public void update(Client data) {
+        clientRepository.update(data);
+    }
+
 }

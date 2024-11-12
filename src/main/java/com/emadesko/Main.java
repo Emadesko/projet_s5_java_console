@@ -2,6 +2,7 @@ package com.emadesko;
 
 import java.util.Scanner;
 
+import com.emadesko.datas.enums.Role;
 import com.emadesko.datas.repositories.ClientRepository;
 import com.emadesko.datas.repositories.CompteRepository;
 import com.emadesko.datas.repositories.db.CompteRepositoryDb;
@@ -26,45 +27,59 @@ public class Main {
 
         ClientRepository clientRepository = new ClientRepositoryJpa();
         ClientService clientService = new ClientService(clientRepository);
-        ClientView clientView = new ClientView(scanner, clientService, compteView);
+        ClientView clientView = new ClientView(scanner, clientService);
 
         int choix;
+        Role role = compteView.selectRole();
+        switch (role) {
+            case Admin:
+                
+                break;
+            case Boutiquier:
+                
+                break;
+            case Client:
+                
+                break;
+        
+            default:
+                break;
+        }
+            do {
+                System.out.println("1: Créer un client");
+                System.out.println("2: Lister les clients");
+                System.out.println("3: Créer un compte");
+                System.out.println("4: Lister les comptes");
+                System.out.println("5: Quitter");
+                choix = scanner.nextInt();
+                scanner.nextLine();
 
-        do {
-            System.out.println("1: Créer un client");
-            System.out.println("2: Lister les clients");
-            System.out.println("3: Créer un compte");
-            System.out.println("4: Lister les comptes");
-            System.out.println("5: Quitter");
-            choix = scanner.nextInt();
-            scanner.nextLine();
+                switch (choix) {
+                    case 1:
+                        clientView.saisie(compteView);
+                        break;
 
-            switch (choix) {
-                case 1:
-                    clientView.saisie();
-                    break;
+                    case 2:
+                        clientView.showAll();
+                        break;
 
-                case 2:
-                    clientView.showAll();
-                    break;
+                    case 3:
+                        compteView.saisie(null,clientView);
+                        break;
 
-                case 3:
-                    compteView.saisie(null);
-                    break;
+                    case 4:
+                        compteView.showAll();
+                        break;
 
-                case 4:
-                    compteView.showAll();
-                    break;
+                    case 5:
 
-                case 5:
+                        break;
 
-                    break;
-
-                default:
-                    System.out.println("Veuillez faire un bon choix!!");
-                    break;
-            }
-        } while (choix != 5);
+                    default:
+                        System.out.println("Veuillez faire un bon choix!!");
+                        break;
+                }
+            } while (choix != 5);
         scanner.close();
     }
 }

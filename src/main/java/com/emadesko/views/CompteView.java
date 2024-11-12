@@ -1,7 +1,9 @@
 package com.emadesko.views;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
+import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.entities.Compte;
 import com.emadesko.datas.enums.Role;
 import com.emadesko.services.CompteService;
@@ -23,10 +25,17 @@ public class CompteView extends View<Compte> {
         return Role.values()[super.choixSousMenu(menuTxt, Role.values().length)-1];
     }
 
-    public Compte saisie(Role role) {
+    public Compte saisie(Role role,ClientView clientView) {
 
+        Client client=null;
         if (role == null) {
             role=selectRole();
+            if (role == Role.Client) {
+                client=clientView.chooseClient();
+                if (client== null) {
+                    return null;
+                }
+            }
         }
         String login, email, password, nom, prenom;
         Boolean ok;
@@ -52,7 +61,15 @@ public class CompteView extends View<Compte> {
         password = super.obligatoire("Veuillez donneer le mot de passe de l'utilisateur");
 
         Compte compte = new Compte(login, email, password, nom, prenom, role);
+
+        System.out.println("Compte créé avec succès");
         compteService.create(compte);
+        if (client!= null) {
+            client.setUpdateAt(LocalDate.now());
+            compte.setClient(client);
+            client.setCompte(compte);
+            clientView.service.update(client);
+        }
         return compte;
     }
 }

@@ -5,7 +5,16 @@ import java.util.List;
 
 public interface Service <T>{
 
-    public void create(T data);
+    void create(T data);
 
-    public List<T> getAll();
+    List<T> getAll();
+
+    T getById(int id);
+
+    T getById(List<T> datas, int id);
+
+    void delete(T data);
+
+    void update(T data);
+
 }
