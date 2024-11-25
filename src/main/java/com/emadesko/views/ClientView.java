@@ -5,6 +5,7 @@ import com.emadesko.datas.entities.Compte;
 import com.emadesko.datas.enums.Role;
 import com.emadesko.services.ClientService;
 
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -62,6 +63,36 @@ public class ClientView extends View<Client>{
         return client;
     }
 
-    
-
+    public Client selectByTelephone(List<Client> tab) {
+        if (tab.isEmpty()) {
+            System.out.println(this.objet + " n'existe");
+            return null;
+        }else{
+            tab.stream().forEach(System.out::println);
+            System.out.println("Veuillez entrer le téléphone du client ou 0 pour annuler");
+            String telephone = scanner.nextLine();
+            
+            if (telephone != "0") {
+                Client entity = this.clientService.getClientByTelephone(telephone);
+                boolean ok = entity == null;
+                while (ok) {
+                    System.out.println("Aucun client ne correspond à ce téléphone");
+                    System.out.println("Veuillez entrer le téléphone du client ou 0 pour annuler");
+                    telephone = scanner.nextLine();
+                    
+                    if (telephone == "0") {
+                        ok = false;
+                    } else {
+                        entity = this.clientService.getClientByTelephone(telephone);
+                        ok = entity == null;
+                    }
+                }
+                if (entity != null) {
+                    System.out.println(entity.show());
+                }
+                return entity;
+            }
+            return null;
+        }
+    }
 }

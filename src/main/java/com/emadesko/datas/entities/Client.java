@@ -20,11 +20,17 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"dettes","compte"})
 @Entity
 @Table(name = "clients" )
 public class Client extends Entite{
     
+    public String show() {
+        return "Client [id=" + id + ", surname=" + surname + ", telephone=" + telephone + ", adresse=" + adresse
+                + ", createAt=" + createAt + ", updateAt=" + updateAt + ", compte=" + compte + ", dettes=" + dettes
+                + "]";
+    }
+
     public Client(String surname, String telephone, String adresse) {
         nbrObjet++;
         this.id=nbrObjet;
