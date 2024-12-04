@@ -39,8 +39,13 @@ public class Compte extends Entite{
     private String prenom;
     @Column(length = 30, unique = true,nullable = false)
     private String email;
+
     @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
     private Role role;
+
+    @Column(nullable = false)
+    private boolean isActive;
 
     @Column(nullable = false)
     private LocalDate createAt;
@@ -60,6 +65,7 @@ public class Compte extends Entite{
       this.prenom = prenom;
       this.email = email;
       this.role = role;
+      this.isActive = true;
       this.createAt = LocalDate.now();
       this.updateAt = LocalDate.now();
     }

@@ -27,7 +27,30 @@ public class CompteRepositoryDb extends RepositoryDb<Compte> implements CompteRe
 
     @Override
     public String generateSql(Compte compte) {
-        return "INSERT INTO " + this.tableName + " (`email`, `login`, `nom`, `prenom`, `password`, `role`, `createAt`,  `updateAt`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+        return "INSERT INTO " + this.tableName + " (`email`, `login`, `nom`, `prenom`, `password`, `role`, `createAt`,  `updateAt`, `isActive`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    }
+
+    @Override
+    public void update(Compte compte) {
+        this.getConnection();
+        String sql = "UPDATE " + this.tableName + " SET `email`=?, `login`=?, `nom`=?, `prenom`=?, `password`=?, `role`=?, `updateAt`=?, `isActive`=? WHERE id=?";
+        try {
+            this.initPreparedStatment(sql);
+            this.ps.setString(1, compte.getEmail());
+            this.ps.setString(2, compte.getLogin());
+            this.ps.setString(3, compte.getNom());
+            this.ps.setString(4, compte.getPrenom());
+            this.ps.setString(5, compte.getPassword());
+            this.ps.setInt(6, compte.getRole().ordinal());
+            this.ps.setObject(7, compte.getUpdateAt());
+            this.ps.setObject(8, compte.isActive());
+            this.ps.setInt(9, compte.getId());
+            this.excecuteUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            this.closeConnection();
+        }
     }
 
     @Override
@@ -38,8 +61,9 @@ public class CompteRepositoryDb extends RepositoryDb<Compte> implements CompteRe
         this.ps.setString(4, compte.getPrenom());
         this.ps.setString(5, compte.getPassword());
         this.ps.setInt(6, compte.getRole().ordinal());
-        this.ps.setObject(7, compte.getUpdateAt());
+        this.ps.setObject(7, compte.getCreateAt());
         this.ps.setObject(8, compte.getUpdateAt());
+        this.ps.setBoolean(9, compte.isActive());
     }
 
     @Override
@@ -54,6 +78,7 @@ public class CompteRepositoryDb extends RepositoryDb<Compte> implements CompteRe
         compte.setRole(Role.values()[rs.getInt("role")]);
         compte.setCreateAt(rs.getDate("createAt").toLocalDate());
         compte.setUpdateAt(rs.getDate("updateAt").toLocalDate());
+        compte.setActive(rs.getBoolean("isActive"));
         return compte;
     }
 

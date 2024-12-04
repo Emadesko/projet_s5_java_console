@@ -36,7 +36,7 @@ public class Main {
                 do {
                     System.out.println("1: Créer un compte");
                     System.out.println("2: Activer ou désactiver un compte");
-                    System.out.println("3: Lister les comptes utilisateurs  actifs ou par rôle");
+                    System.out.println("3: Lister les comptes utilisateurs");
                     System.out.println("4: Créer des articles");
                     System.out.println("5: Lister des articles");
                     System.out.println("6: Filtrer les articles par disponibilité");
@@ -52,10 +52,13 @@ public class Main {
                             break;
         
                         case 2:
+                            compteView.changeActivationCompte();
                             break;
         
                         case 3:
-                            
+                            do {
+                                
+                            } while (compteView.listComptesActifsOuParRole() != 3);
                             break;
         
                         case 4:
