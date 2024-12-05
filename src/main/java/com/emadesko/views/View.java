@@ -18,11 +18,17 @@ public class View <T>{
     }
 
     
-    public void showAll(){
-        if (service.getAll().isEmpty()) {
+    public void showAll(String listTxt){
+        showList(service.getAll(),listTxt);
+    }
+
+    public void showList(List<T> list, String listTxt){
+        if (list.isEmpty()) {
             System.out.println(this.objet + " n'existe");
+        }else{
+            System.out.println(listTxt);
+            list.stream().forEach(System.out::println);
         }
-        service.getAll().stream().forEach(System.out::println);
     }
 
     public String obligatoire(String text){
@@ -52,33 +58,33 @@ public class View <T>{
         return choix;
     }
 
-    public T select(List<T> tab, String entityTxt, String entityNone) {
-        if (tab.isEmpty()) {
-            System.out.println(this.objet + " n'existe");
-            return null;
-        }else{
-            tab.stream().forEach(System.out::println);
-            System.out.println("Veuillez entrer l'Id " + entityTxt + " ou 0 pour annuler");
-            int id = scanner.nextInt();
-            scanner.nextLine();
-            if (id != 0) {
-                T entity = this.service.getById(tab, id);
-                boolean ok = entity == null;
-                while (ok) {
-                    System.out.println(entityNone + " ne correspond à ce Id");
-                    System.out.println("Veuillez entrer l'Id " + entityTxt + " ou 0 pour annuler");
-                    id = scanner.nextInt();
-                    scanner.nextLine();
-                    if (id == 0) {
-                        ok = false;
-                    } else {
-                        entity = this.service.getById(tab, id);
-                        ok = entity == null;
-                    }
-                }
-                return entity;
-            }
-            return null;
-        }
-    }
+    // public T select(List<T> tab, String entityTxt, String entityNone) {
+    //     if (tab.isEmpty()) {
+    //         System.out.println(this.objet + " n'existe");
+    //         return null;
+    //     }else{
+    //         tab.stream().forEach(System.out::println);
+    //         System.out.println("Veuillez entrer l'Id " + entityTxt + " ou 0 pour annuler");
+    //         int id = scanner.nextInt();
+    //         scanner.nextLine();
+    //         if (id != 0) {
+    //             T entity = this.service.getById(tab, id);
+    //             boolean ok = entity == null;
+    //             while (ok) {
+    //                 System.out.println(entityNone + " ne correspond à ce Id");
+    //                 System.out.println("Veuillez entrer l'Id " + entityTxt + " ou 0 pour annuler");
+    //                 id = scanner.nextInt();
+    //                 scanner.nextLine();
+    //                 if (id == 0) {
+    //                     ok = false;
+    //                 } else {
+    //                     entity = this.service.getById(tab, id);
+    //                     ok = entity == null;
+    //                 }
+    //             }
+    //             return entity;
+    //         }
+    //         return null;
+    //     }
+    // }
 }

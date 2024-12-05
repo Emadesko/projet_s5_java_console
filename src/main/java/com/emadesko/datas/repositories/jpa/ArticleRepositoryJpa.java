@@ -20,6 +20,11 @@ public class ArticleRepositoryJpa extends RepositoryJpa<Article> implements Arti
 
     @Override
     public List<Article> getUnavailableArticles() {
-        return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE qteStock == 0", clazz).getResultList();
+        return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE qteStock = 0", clazz).getResultList();
+    }
+
+    @Override
+    public List<Article> getAvailableArticles() {
+        return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE qteStock > 0", clazz).getResultList();
     }
 }

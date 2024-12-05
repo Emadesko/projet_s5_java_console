@@ -25,8 +25,14 @@ public class Dette extends Entite{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false)
     private double montant;
+    @Column(nullable = false)
     private double montantVerser;
+
+    
+    @Column(nullable = false)
+    private boolean isSolde;
     
     @OneToMany(mappedBy = "dette")
     private List <Detail> details;
@@ -41,12 +47,15 @@ public class Dette extends Entite{
     private LocalDate createAt;
     @Column(nullable = false)
     private LocalDate updateAt;
-
-    public Dette() {
+    public Dette(double montant, double montantVerser, Client client) {
         nbrObjet++;
         this.id=nbrObjet;
+        this.montant = montant;
+        this.montantVerser = montantVerser;
+        this.isSolde = montant == montantVerser;
+        this.client = client;
         this.createAt = LocalDate.now();
         this.updateAt = LocalDate.now();
     }
-    
+
 }

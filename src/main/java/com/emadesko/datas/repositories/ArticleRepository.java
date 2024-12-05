@@ -9,4 +9,5 @@ import com.emadesko.datas.entities.Article;
 public interface ArticleRepository extends Repository<Article>{
     Article getArticleByLibelle(String libelle);
     List <Article> getUnavailableArticles();
+    List <Article> getAvailableArticles();
 }

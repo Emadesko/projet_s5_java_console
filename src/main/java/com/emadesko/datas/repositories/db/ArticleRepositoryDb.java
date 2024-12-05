@@ -71,9 +71,19 @@ public class ArticleRepositoryDb extends RepositoryDb<Article> implements Articl
 
     @Override
     public List<Article> getUnavailableArticles() {
+        return getArticlesByQte("= 0");
+    }
+
+    @Override
+    public List<Article> getAvailableArticles() {
+        return getArticlesByQte("> 0");
+    }
+
+    public List<Article> getArticlesByQte(String condition) {
+
         List<Article> unavailableArticles=new ArrayList<>();
         this.getConnection();
-        String sql="SELECT * FROM "+ tableName +" WHERE qteStock == 0;";
+        String sql="SELECT * FROM "+ tableName +" WHERE qteStock "+ condition + ";";
         try {
             this.initPreparedStatment(sql);
             ResultSet rs=this.excecuteQuerry();
@@ -87,4 +97,5 @@ public class ArticleRepositoryDb extends RepositoryDb<Article> implements Articl
         }
         return unavailableArticles;
     }
+ 
 }

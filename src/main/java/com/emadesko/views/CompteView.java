@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.entities.Compte;
+import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.enums.Role;
 import com.emadesko.services.CompteService;
 
@@ -29,7 +29,6 @@ public class CompteView extends View<Compte> {
     }
 
     public Compte saisie(Role role, ClientView clientView) {
-
         Client client = null;
         if (role == null) {
             role = selectRole();
@@ -80,7 +79,7 @@ public class CompteView extends View<Compte> {
     }
 
     public void changeActivationCompte() {
-        Compte compte = super.select(compteService.getAll(), "du compte", "Aucun compte");
+        Compte compte = selectByLogin(compteService.getAll());
         if (compte != null) {
             compte.setActive(!compte.isActive());
             compte.setUpdateAt(LocalDate.now());
@@ -89,34 +88,55 @@ public class CompteView extends View<Compte> {
         }
     }
 
+    public Compte selectByLogin(List<Compte> tab) {
+        if (tab.isEmpty()) {
+            System.out.println(this.objet + " n'existe");
+            return null;
+        }else{
+            tab.stream().forEach(System.out::println);
+            System.out.println("Veuillez entrer le login du compte ou 0 pour annuler");
+            String login = scanner.nextLine();
+            
+            if (login != "0") {
+                Compte entity = this.compteService.getCompteByLogin(login);
+                boolean ok = entity == null;
+                while (ok) {
+                    System.out.println("Aucun compte ne correspond à ce login");
+                    System.out.println("Veuillez entrer le login du compte ou 0 pour annuler");
+                    login = scanner.nextLine();
+                    
+                    if (login == "0") {
+                        ok = false;
+                    } else {
+                        entity = this.compteService.getCompteByLogin(login);
+                        ok = entity == null;
+                    }
+                }
+                if (entity != null) {
+                    System.out.println(entity);
+                }
+                return entity;
+            }
+            return null;
+        }
+    }
+
     public void listComptesParRole() {
         for (Role role : Role.values()) {
-            List<Compte> comptes = compteService.getAll().stream().filter(c -> c.getRole() == role).toList();
-            if (!comptes.isEmpty()) {
-                System.out.println("#########################################################");
-                System.out.println("Comptes de rôle " + role.name() + " :");
-                for (Compte compte : comptes) {
-                    System.out.println(compte);
-                }
-                System.out.println();
-            } else {
-                System.out.println("#########################################################");
-                System.out.println("Aucun compte de rôle " + role.name());
-                System.out.println();
-            }
+            List<Compte> comptes = compteService.getComptesByRole(role);
+            System.out.println("#########################################################");
+            super.objet="Aucun compte de rôle " + role.name();
+            super.showList(comptes, "Comptes de rôle " + role.name());
+            super.objet="Aucun compte";
+            System.out.println();
         }
     }
 
     public void listComptesActifs() {
-        List<Compte> comptes = compteService.getAll().stream().filter(Compte::isActive).toList();
-        if (!comptes.isEmpty()) {
-            System.out.println("Liste des comptes actifs :");
-            for (Compte compte : comptes) {
-                System.out.println(compte);
-            }
-        } else {
-            System.out.println("Aucun compte actif");
-        }
+        List<Compte> comptes = compteService.getComptesByEtat(true);
+        super.objet="Aucun compte actif";
+        super.showList(comptes, "Liste des comptes actifs");
+        super.objet="Aucun compte";
     }
 
     public int listComptesActifsOuParRole() {

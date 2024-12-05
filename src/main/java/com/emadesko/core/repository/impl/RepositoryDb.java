@@ -88,6 +88,26 @@ public class RepositoryDb<T extends Entite> implements DataSource<T> {
         }
         return data;
     }
+    
+    @Override
+    public List<T> getManyBy(String condition, Object value) {
+        List<T> datas=new ArrayList<>();
+        this.getConnection();
+        String sql="SELECT * FROM " + this.tableName + " where " + condition + " ?";
+        try {
+            this.initPreparedStatment(sql);
+            this.ps.setObject(1, value);
+            ResultSet rs=this.excecuteQuerry();
+            while (rs.next()) {
+                datas.add(convertToObject(rs));
+            }
+        } catch (IllegalAccessException | SQLException e) {
+            e.printStackTrace();
+        }finally{
+            this.closeConnection();
+        }
+        return datas;
+    }
 
     @Override
     public T getById(int id) {

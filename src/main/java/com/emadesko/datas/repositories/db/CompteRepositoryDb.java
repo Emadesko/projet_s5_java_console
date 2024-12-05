@@ -2,7 +2,7 @@ package com.emadesko.datas.repositories.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.List;
 
 import com.emadesko.core.repository.impl.RepositoryDb;
 import com.emadesko.datas.entities.Compte;
@@ -23,6 +23,16 @@ public class CompteRepositoryDb extends RepositoryDb<Compte> implements CompteRe
     @Override
     public Compte getCompteByEmail(String email) {
         return this.getBy("email LIKE ", email);
+    }
+
+    @Override
+    public List<Compte> getComptesByRole(Role role) {
+        return super.getManyBy("role =", role.ordinal());
+    }
+
+    @Override
+    public List<Compte> getComptesByEtat(boolean isActive) {
+        return super.getManyBy("isActive =", isActive ? 1 : 0);
     }
 
     @Override

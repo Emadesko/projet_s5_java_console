@@ -13,13 +13,17 @@ public class ArticleService extends ServiceImpl<Article>{
         super(articleRepository);
         this.articleRepository = articleRepository;
     }
+
     public Article getArticleByLibelle(String libelle){
         return this.articleRepository.getArticleByLibelle(libelle);
     }
 
-
     public List <Article> getUnavailableArticles(){
         return this.articleRepository.getUnavailableArticles();
+    }
+
+    public List <Article> getAvailableArticles(){
+        return this.articleRepository.getAvailableArticles();
     }
 
 }

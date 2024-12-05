@@ -58,7 +58,7 @@ public class ClientView extends View<Client>{
 
     public Client chooseClient(){
         this.objet="Aucun client sans compte";
-        Client client= super.select(clientService.getNonAccountedClients(), "du client", "Aucun client");
+        Client client= selectByTelephone(clientService.getNonAccountedClients());
         this.objet="Aucun client";
         return client;
     }
