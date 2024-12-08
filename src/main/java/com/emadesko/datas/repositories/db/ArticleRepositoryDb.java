@@ -2,7 +2,6 @@ package com.emadesko.datas.repositories.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.emadesko.core.repository.impl.RepositoryDb;
@@ -71,31 +70,13 @@ public class ArticleRepositoryDb extends RepositoryDb<Article> implements Articl
 
     @Override
     public List<Article> getUnavailableArticles() {
-        return getArticlesByQte("= 0");
+        return super.getManyBy("qteStock =",0);
     }
 
     @Override
     public List<Article> getAvailableArticles() {
-        return getArticlesByQte("> 0");
+        return super.getManyBy("qteStock >",0);
     }
 
-    public List<Article> getArticlesByQte(String condition) {
-
-        List<Article> unavailableArticles=new ArrayList<>();
-        this.getConnection();
-        String sql="SELECT * FROM "+ tableName +" WHERE qteStock "+ condition + ";";
-        try {
-            this.initPreparedStatment(sql);
-            ResultSet rs=this.excecuteQuerry();
-            while (rs.next()) {
-                unavailableArticles.add(convertToObject(rs));
-            }
-        } catch (IllegalAccessException | SQLException e) {
-            e.printStackTrace();
-        }finally{
-            this.closeConnection();
-        }
-        return unavailableArticles;
-    }
  
 }
