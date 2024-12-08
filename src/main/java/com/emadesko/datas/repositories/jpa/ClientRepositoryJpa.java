@@ -21,9 +21,11 @@ public class ClientRepositoryJpa extends RepositoryJpa<Client> implements Client
     public Client getClientBySurnom(String surnom) {
         return super.selectBy("surname" + " LIKE :surnom", "surnom", surnom);
     }
-
+    
     @Override
-    public List<Client> getNonAccountedClients() {
-        return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE compte_id IS NULL", clazz).getResultList();
+    public List<Client> getClientsByAccountStatus(boolean with) {
+        String valeur= with ? "NOT " : "";
+        return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE compte_id IS " + valeur + "NULL", clazz).getResultList();
+        
     }
 }

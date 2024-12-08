@@ -12,6 +12,10 @@ public class ArticleView extends View<Article>{
 
     private ArticleService articleService;
 
+    public ArticleService getArticleService() {
+        return articleService;
+    }
+
     public ArticleView(Scanner scanner, ArticleService articleService) {
         super(scanner,articleService,"Aucun Article");
         this.articleService = articleService;

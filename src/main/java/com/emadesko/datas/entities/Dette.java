@@ -40,8 +40,8 @@ public class Dette extends Entite{
     @OneToMany(mappedBy = "dette")
     private List <Paiement> paiements;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
+    @ManyToOne()
+    @JoinColumn(nullable = false )
     private Client client;
     @Column(nullable = false)
     private LocalDate createAt;
@@ -56,6 +56,9 @@ public class Dette extends Entite{
         this.client = client;
         this.createAt = LocalDate.now();
         this.updateAt = LocalDate.now();
+    }
+    public Dette() {
+        //TODO Auto-generated constructor stub
     }
 
 }

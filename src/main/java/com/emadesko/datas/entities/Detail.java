@@ -41,11 +41,19 @@ public class Detail extends Entite{
     @Column(nullable = false)
     private LocalDate updateAt;
 
-    public Detail() {
+    public Detail(int qte, Double prix, Article article, Dette dette) {
         nbrObjet++;
         this.id = nbrObjet;
+        this.qte = qte;
+        this.prix = prix;
+        this.article = article;
+        this.dette = dette;
         this.createAt = LocalDate.now();
         this.updateAt = LocalDate.now();
+    }
+
+    public Detail() {
+        
     }
     
 }

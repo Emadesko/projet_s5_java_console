@@ -22,8 +22,8 @@ public class ClientService extends ServiceImpl<Client>{
         return this.clientRepository.getClientBySurnom(surnom);
     }
 
-    public List <Client> getNonAccountedClients(){
-        return this.clientRepository.getNonAccountedClients();
+    public List <Client> getClientsByAccountStatus(boolean with){
+        return this.clientRepository.getClientsByAccountStatus(with);
     }
 
 }

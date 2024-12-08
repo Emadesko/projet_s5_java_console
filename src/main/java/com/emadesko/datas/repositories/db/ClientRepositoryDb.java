@@ -30,7 +30,7 @@ public class ClientRepositoryDb extends RepositoryDb<Client> implements ClientRe
 
     @Override
     public String generateSql(Client client) {
-        return "INSERT INTO `clients` (`adresse`, `surname`, `telephone`, `createAt`, `updateAt`, `compte_id`) VALUES (?, ?, ?, ?, ?, ?);";
+        return "INSERT INTO " + this.tableName + " (`adresse`, `surname`, `telephone`, `createAt`, `updateAt`, `compte_id`) VALUES (?, ?, ?, ?, ?, ?);";
     }
 
     @Override
@@ -86,22 +86,28 @@ public class ClientRepositoryDb extends RepositoryDb<Client> implements ClientRe
         return client;
     }
 
+
     @Override
-    public List<Client> getNonAccountedClients() {
-        List<Client> nonAccountedClients=new ArrayList<>();
+    public List<Client> getClientsByAccountStatus(boolean with) {
+        List<Client> clients=new ArrayList<>();
         this.getConnection();
-        String sql="SELECT * FROM "+ tableName +" WHERE compte_id IS NULL;";
+        String sql;
+        if (with){
+            sql="SELECT * FROM "+ tableName +" WHERE compte_id IS NOT NULL;";
+        }else{
+            sql="SELECT * FROM "+ tableName +" WHERE compte_id IS NULL;";
+        }
         try {
             this.initPreparedStatment(sql);
             ResultSet rs=this.excecuteQuerry();
             while (rs.next()) {
-                nonAccountedClients.add(convertToObject(rs));
+                clients.add(convertToObject(rs));
             }
         } catch (IllegalAccessException | SQLException e) {
             e.printStackTrace();
         }finally{
             this.closeConnection();
         }
-        return nonAccountedClients;
+        return clients;
     }
 }

@@ -22,7 +22,7 @@ public class ArticleRepositoryDb extends RepositoryDb<Article> implements Articl
 
     @Override
     public String generateSql(Article article) {
-        return "INSERT INTO `articles` (`libelle`, `reference`, `prix`, `createAt`, `updateAt`, `qteStock`) VALUES (?, ?, ?, ?, ?, ?);";
+        return "INSERT INTO " + this.tableName + " (`libelle`, `reference`, `prix`, `createAt`, `updateAt`, `qteStock`) VALUES (?, ?, ?, ?, ?, ?);";
     }
 
     @Override

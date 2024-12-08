@@ -13,6 +13,10 @@ public class CompteView extends View<Compte> {
 
     private CompteService compteService;
 
+    public CompteService getCompteService() {
+        return compteService;
+    }
+
     public CompteView(Scanner scanner, CompteService compteService) {
         super(scanner, compteService, "Aucun compte");
         this.compteService = compteService;
@@ -36,7 +40,7 @@ public class CompteView extends View<Compte> {
                 return null;
             }
             if (role == Role.Client) {
-                client = clientView.chooseClient();
+                client = clientView.chooseClient(clientView.getClientService().getClientsByAccountStatus(false), "sans");
                 if (client == null) {
                     return null;
                 }
@@ -67,8 +71,8 @@ public class CompteView extends View<Compte> {
 
         Compte compte = new Compte(login, email, password, nom, prenom, role);
 
-        System.out.println("Compte créé avec succès");
         compteService.create(compte);
+        System.out.println("Compte créé avec succès");
         if (client != null) {
             client.setUpdateAt(LocalDate.now());
             compte.setClient(client);

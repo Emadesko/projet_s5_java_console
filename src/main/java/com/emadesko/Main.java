@@ -6,19 +6,23 @@ import com.emadesko.datas.enums.Role;
 import com.emadesko.datas.repositories.ArticleRepository;
 import com.emadesko.datas.repositories.ClientRepository;
 import com.emadesko.datas.repositories.CompteRepository;
+import com.emadesko.datas.repositories.DetteRepository;
 import com.emadesko.datas.repositories.jpa.ArticleRepositoryJpa;
 // import com.emadesko.datas.repositories.db.CompteRepositoryDb;
 // import com.emadesko.datas.repositories.db.ClientRepositoryDb;
 import com.emadesko.datas.repositories.jpa.ClientRepositoryJpa;
 import com.emadesko.datas.repositories.jpa.CompteRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.DetteRepositoryJpa;
 import com.emadesko.services.ArticleService;
 // import com.emadesko.datas.repositories.list.ClientRepositoryList;
 // import com.emadesko.datas.repositories.list.CompteRepositoryList;
 import com.emadesko.services.ClientService;
 import com.emadesko.services.CompteService;
+import com.emadesko.services.DetteService;
 import com.emadesko.views.ArticleView;
 import com.emadesko.views.ClientView;
 import com.emadesko.views.CompteView;
+import com.emadesko.views.DetteView;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
@@ -36,6 +40,10 @@ public class Main {
         ArticleRepository articleRepository = new ArticleRepositoryJpa();
         ArticleService articleService = new ArticleService(articleRepository);
         ArticleView articleView = new ArticleView(scanner, articleService);
+
+        DetteRepository detteRepository = new DetteRepositoryJpa();
+        DetteService detteService = new DetteService(detteRepository);
+        DetteView detteView = new DetteView(scanner, detteService);
 
         int choix;
         Role role = compteView.selectRole();
@@ -125,7 +133,14 @@ public class Main {
                             break;
         
                         case 4:
-                            compteView.showAll("Liste des comptes");
+                            // detteView.saisie(clientView, articleView);
+                            break;
+        
+                        case 5:
+                            break;
+        
+                        case 6:
+                            
                             break;
         
                         case 0:

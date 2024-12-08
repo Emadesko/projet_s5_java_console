@@ -13,6 +13,10 @@ public class ClientView extends View<Client>{
 
     private ClientService clientService;
 
+    public ClientService getClientService() {
+        return clientService;
+    }
+
     public ClientView(Scanner scanner, ClientService clientService) {
         super(scanner,clientService,"Aucun client");
         this.clientService = clientService;
@@ -56,9 +60,9 @@ public class ClientView extends View<Client>{
         return client;
     }
 
-    public Client chooseClient(){
-        this.objet="Aucun client sans compte";
-        Client client= selectByTelephone(clientService.getNonAccountedClients());
+    public Client chooseClient(List <Client> tab , String txt){
+        this.objet="Aucun client " + txt + " compte";
+        Client client= selectByTelephone(tab);
         this.objet="Aucun client";
         return client;
     }
