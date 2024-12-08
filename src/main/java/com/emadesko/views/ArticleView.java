@@ -92,7 +92,7 @@ public class ArticleView extends View<Article>{
             System.out.println("Veuillez entrer le libelle de l'article ou 0 pour annuler");
             String libelle = scanner.nextLine();
             
-            if (libelle != "0") {
+            if (libelle.compareToIgnoreCase("0") != 0) {
                 Article entity = this.articleService.getArticleByLibelle(libelle);
                 boolean ok = entity == null;
                 while (ok) {
@@ -100,7 +100,7 @@ public class ArticleView extends View<Article>{
                     System.out.println("Veuillez entrer le libelle de l'article ou 0 pour annuler");
                     libelle = scanner.nextLine();
                     
-                    if (libelle == "0") {
+                    if (libelle.compareToIgnoreCase("0") == 0) {
                         ok = false;
                     } else {
                         entity = this.articleService.getArticleByLibelle(libelle);

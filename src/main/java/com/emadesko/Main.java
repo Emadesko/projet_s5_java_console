@@ -129,14 +129,15 @@ public class Main {
                             break;
         
                         case 3:
-                            clientView.selectByTelephone(clientService.getAll());
+                            clientView.searchClientByTelephone(clientService.getAll());
                             break;
         
                         case 4:
-                            // detteView.saisie(clientView, articleView);
+                            detteView.saisie(clientView, articleView);
                             break;
         
                         case 5:
+                            detteView.showDettesNonSoldesByClient(clientView);
                             break;
         
                         case 6:

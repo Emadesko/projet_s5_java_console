@@ -43,4 +43,12 @@ public class Paiement extends Entite{
     @ManyToOne()
     @JoinColumn(nullable = false)
     private Dette dette;
+    public Paiement(double montant, Dette dette) {
+        nbrObjet++;
+        this.id = nbrObjet;
+        this.montant = montant;
+        this.createAt = LocalDate.now();
+        this.updateAt = LocalDate.now();
+        this.dette = dette;
+    }
 }

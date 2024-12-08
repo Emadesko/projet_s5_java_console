@@ -76,7 +76,7 @@ public class ClientView extends View<Client>{
             System.out.println("Veuillez entrer le téléphone du client ou 0 pour annuler");
             String telephone = scanner.nextLine();
             
-            if (telephone != "0") {
+            if (telephone.compareToIgnoreCase("0") != 0) {
                 Client entity = this.clientService.getClientByTelephone(telephone);
                 boolean ok = entity == null;
                 while (ok) {
@@ -84,7 +84,7 @@ public class ClientView extends View<Client>{
                     System.out.println("Veuillez entrer le téléphone du client ou 0 pour annuler");
                     telephone = scanner.nextLine();
                     
-                    if (telephone == "0") {
+                    if (telephone.compareToIgnoreCase("0") == 0) {
                         ok = false;
                     } else {
                         entity = this.clientService.getClientByTelephone(telephone);
@@ -92,11 +92,18 @@ public class ClientView extends View<Client>{
                     }
                 }
                 if (entity != null) {
-                    System.out.println(entity.show());
+                    System.out.println(entity);
                 }
                 return entity;
             }
             return null;
+        }
+    }
+
+    public void searchClientByTelephone(List<Client> tab) {
+        Client client = this.selectByTelephone(tab);
+        if (client!= null) {
+            System.out.println(client.show());
         }
     }
 }
