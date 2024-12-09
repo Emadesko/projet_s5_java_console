@@ -29,6 +29,8 @@ public class Detail extends Entite{
     private int qte;
     @Column(nullable = false)
     private Double prix;
+    @Column(nullable = false)
+    private Double total;
     @ManyToOne
     @JoinColumn(nullable = false)
     private Article article;
@@ -46,6 +48,7 @@ public class Detail extends Entite{
         this.id = nbrObjet;
         this.qte = qte;
         this.prix = prix;
+        this.total = prix * qte;
         this.article = article;
         this.dette = dette;
         this.createAt = LocalDate.now();

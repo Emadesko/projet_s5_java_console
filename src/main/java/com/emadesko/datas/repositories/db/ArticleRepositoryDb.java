@@ -65,6 +65,7 @@ public class ArticleRepositoryDb extends RepositoryDb<Article> implements Articl
         article.setCreateAt(rs.getDate("createAt").toLocalDate());
         article.setUpdateAt(rs.getDate("updateAt").toLocalDate());
         article.setQteStock(rs.getInt("qteStock"));
+        article.setDetails(null);
         return article;
     }
 

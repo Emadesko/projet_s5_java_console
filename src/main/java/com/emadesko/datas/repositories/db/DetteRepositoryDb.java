@@ -88,4 +88,9 @@ public class DetteRepositoryDb extends RepositoryDb<Dette> implements DetteRepos
         }
         return datas;
     }
+
+    @Override
+    public List<Dette> getDettesByClient(Client client) {
+        return super.getManyBy("client_id =", client.getId());
+    }
 }

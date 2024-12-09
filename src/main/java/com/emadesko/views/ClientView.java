@@ -106,4 +106,20 @@ public class ClientView extends View<Client>{
             System.out.println(client.show());
         }
     }
+
+    public void showClientsByAccountStatus(){
+        List<Client> clients=clientService.getClientsByAccountStatus(true);
+        System.out.println("#########################################################");
+        super.objet="Aucun client avec compte";
+        this.showList(clients,"Clients avec compte");
+        System.out.println();
+
+        clients=clientService.getClientsByAccountStatus(false);
+        System.out.println("#########################################################");
+        super.objet="Aucun client sans compte";
+        this.showList(clients,"Clients sans compte");
+        System.out.println();
+
+        super.objet="Aucun client";
+    }
 }

@@ -25,13 +25,13 @@ public class DetteView extends View<Dette> {
     }
 
     public Detail check(List<Detail> tab, Article article) {
-        return tab.stream().filter(detail -> detail.getArticle() == article).findFirst().orElse(null);
+        return tab.stream().filter(detail -> detail.getArticle().getId() == article.getId()).findFirst().orElse(null);
     }
 
-    public Dette saisie(ClientView clientView, ArticleView articleView) {
-        List<Client> clients = clientView.getClientService().getClientsByAccountStatus(true);
+    public Dette saisie(ClientView clientView, ArticleView articleView, PaiementView paiementView, DetailView detailView) {
+        List<Client> clients = clientView.getClientService().getAll();
         if (clients.isEmpty()) {
-            System.out.println("Aucun client actif.");
+            System.out.println("Aucun client.");
             return null;
         }
         List<Article> articles = articleView.getArticleService().getAvailableArticles();
@@ -45,7 +45,8 @@ public class DetteView extends View<Dette> {
         }
         boolean ok;
         List<Detail> tabDetail=new ArrayList<>();
-        int montant = 0, qte;
+        double montant = 0;
+        int qte;
         do {
             Article article = articleView.chooseArticle();
 
@@ -65,55 +66,44 @@ public class DetteView extends View<Dette> {
                 if (detail == null) {
                     tabDetail.add(new Detail(qte, article.getPrix(), article, null));
                 } else {
-                    detail.setPrix(detail.getPrix() + montant);
                     detail.setQte(detail.getQte() + qte);
+                    detail.setTotal(detail.getQte() * detail.getPrix());
                 }
                 article.setQteStock(article.getQteStock() - qte);
                 articleView.getArticleService().update(article);
             }
             ok = super.choixSousMenu("Voulez vous ajouter un autre article? \n1- Oui \n2- Non", 2) == 1;
         } while (ok);
+        Dette dette= new Dette(montant, client);
+        detteService.create(dette);
+        client.getDettes().add(dette);
         int choix=super.choixSousMenu("Voulez vous payer une partie du montant?\n1-Oui\n2-Non",2);
-        double montantVerser = 0;
-        Paiement paiement = null;
         if (choix==1) {
-            do{
-                System.out.println("Entrez le montant à verser");
-                montantVerser = scanner.nextDouble();
-                scanner.nextLine();
-                ok = montantVerser <= 0 || montantVerser > montant;
-                if (ok) {
-                    System.out.println("Montant invalide");
-                }
-            }while(ok);
-            paiement = new Paiement(montantVerser, null);
+            paiementView.saisie(this, clientView, dette);
         }
-        Dette dette= new Dette(montant, montantVerser, client);
         for (Detail detail : tabDetail) {
             detail.setDette(dette);
+            dette.getDetails().add(detail);
+            detailView.getDetailService().create(detail);
         }
-        if (paiement != null){
-            paiement.setDette(dette);
-        }
-        detteService.create(dette);
         return dette;
     }
 
-    public void showDettesNonSoldesByClient(ClientView clientView) {
-        List<Client> clients = clientView.getClientService().getClientsByAccountStatus(true);
+    public List <Dette> getDettesNonSoldesByClient(ClientView clientView) {
+        List<Client> clients = clientView.getClientService().getAll();
         if (clients.isEmpty()) {
-            System.out.println("Aucun client actif.");
-            return;
+            System.out.println("Aucun client .");
+            return null;
         }
         Client client = clientView.chooseClient(clients, "avec");
         if (client == null) {
-            return;
+            return null;
         }
         List<Dette> dettes = detteService.getDettesNonSoldesByClient(client);
         if (dettes.isEmpty()) {
             System.out.println("Aucune dette non solde pour ce client.");
-            return;
+            return null;
         }
-        showList(dettes, "Les dettes non soldes pour le client " + client.getSurname());
+        return dettes;
     }
 }

@@ -20,7 +20,7 @@ public class PaiementRepositoryDb extends RepositoryDb<Paiement> implements Paie
 
     @Override
     public String generateSql(Paiement paiement) {
-        return "INSERT INTO " + this.tableName + " (`dette_id`, `montant`, `createAt`, `updateAt`,) VALUES (?, ?, ?, ?);";
+        return "INSERT INTO " + this.tableName + " (`dette_id`, `montant`, `createAt`, `updateAt`) VALUES (?, ?, ?, ?);";
     }
 
     @Override

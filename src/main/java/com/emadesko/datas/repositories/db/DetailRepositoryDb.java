@@ -24,13 +24,13 @@ public class DetailRepositoryDb extends RepositoryDb<Detail> implements DetailRe
 
     @Override
     public String generateSql(Detail detail) {
-        return "INSERT INTO " + this.tableName + " (`prix`, `qte`, `createAt`, `updateAt`, `article_id`, `dette_id`) VALUES (?, ?, ?, ?, ?, ?);";
+        return "INSERT INTO " + this.tableName + " (`prix`, `qte`, `createAt`, `updateAt`, `article_id`, `dette_id`, `total`) VALUES (?, ?, ?, ?, ?, ?, ?);";
     }
 
     @Override
     public void update(Detail detail) {
         this.getConnection();
-        String sql="UPDATE  " + this.tableName + " SET `prix` = ?, `qte` = ?, `createAt` = ?, `updateAt` = ?, `article_id` = ?, `dette_id` = ? WHERE id = ?";
+        String sql="UPDATE  " + this.tableName + " SET `prix` = ?, `qte` = ?, `createAt` = ?, `updateAt` = ?, `article_id` = ?, `dette_id` = ?, `tottal` = ? WHERE id = ?";
         try {
             this.initPreparedStatment(sql);
             this.ps.setDouble(1, detail.getPrix());
@@ -39,7 +39,8 @@ public class DetailRepositoryDb extends RepositoryDb<Detail> implements DetailRe
             this.ps.setObject(4, detail.getUpdateAt());
             this.ps.setInt(5, detail.getArticle().getId());
             this.ps.setInt(6, detail.getDette().getId());
-            this.ps.setInt(7, detail.getId());
+            this.ps.setDouble(7, detail.getTotal());
+            this.ps.setInt(8, detail.getId());
             this.excecuteUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,6 +57,7 @@ public class DetailRepositoryDb extends RepositoryDb<Detail> implements DetailRe
         this.ps.setObject(4, detail.getUpdateAt());
         this.ps.setInt(5, detail.getArticle().getId());
         this.ps.setInt(6, detail.getDette().getId());
+        this.ps.setDouble(7, detail.getTotal());
     }
 
     @Override

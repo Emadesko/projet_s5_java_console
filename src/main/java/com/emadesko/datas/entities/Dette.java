@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import java.time.LocalDate;
-
+import java.util.ArrayList;
 import java.util.List;
 @Getter
 @Setter
@@ -35,10 +35,10 @@ public class Dette extends Entite{
     private boolean isSolde;
     
     @OneToMany(mappedBy = "dette")
-    private List <Detail> details;
+    private List <Detail> details = new ArrayList<>();
 
     @OneToMany(mappedBy = "dette")
-    private List <Paiement> paiements;
+    private List <Paiement> paiements = new ArrayList<>();
 
     @ManyToOne()
     @JoinColumn(nullable = false )
@@ -47,12 +47,12 @@ public class Dette extends Entite{
     private LocalDate createAt;
     @Column(nullable = false)
     private LocalDate updateAt;
-    public Dette(double montant, double montantVerser, Client client) {
+    public Dette(double montant, Client client) {
         nbrObjet++;
         this.id=nbrObjet;
         this.montant = montant;
-        this.montantVerser = montantVerser;
-        this.isSolde = montant == montantVerser;
+        this.montantVerser = 0;
+        this.isSolde = false;
         this.client = client;
         this.createAt = LocalDate.now();
         this.updateAt = LocalDate.now();

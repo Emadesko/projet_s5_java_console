@@ -13,4 +13,9 @@ public class DetteRepositoryList extends RepositoryList<Dette> implements DetteR
     public List<Dette> getDettesNonSoldesByClient(Client client) {
         return super.select().stream().filter(dette -> dette.getClient() == client && !dette.isSolde() ).toList();
     }
+
+    @Override
+    public List<Dette> getDettesByClient(Client client) {
+        return super.select().stream().filter(dette -> dette.getClient() == client ).toList();
+    }
 }

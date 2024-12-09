@@ -8,7 +8,7 @@ import com.emadesko.datas.entities.Dette;
 
 
 public interface DetteRepository extends Repository<Dette>{
-    // List<Dette> getDettesByClient(Client client);
+    List<Dette> getDettesByClient(Client client);
     List<Dette> getDettesNonSoldesByClient(Client client);
     // List<Dette> getDettesByEtat(boolean isArchive);
     // List<Dette> getNonAccountedDettes();

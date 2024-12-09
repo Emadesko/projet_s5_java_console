@@ -6,23 +6,31 @@ import com.emadesko.datas.enums.Role;
 import com.emadesko.datas.repositories.ArticleRepository;
 import com.emadesko.datas.repositories.ClientRepository;
 import com.emadesko.datas.repositories.CompteRepository;
+import com.emadesko.datas.repositories.DetailRepository;
 import com.emadesko.datas.repositories.DetteRepository;
+import com.emadesko.datas.repositories.PaiementRepository;
 import com.emadesko.datas.repositories.jpa.ArticleRepositoryJpa;
 // import com.emadesko.datas.repositories.db.CompteRepositoryDb;
 // import com.emadesko.datas.repositories.db.ClientRepositoryDb;
 import com.emadesko.datas.repositories.jpa.ClientRepositoryJpa;
 import com.emadesko.datas.repositories.jpa.CompteRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.DetailRepositoryJpa;
 import com.emadesko.datas.repositories.jpa.DetteRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.PaiementRepositoryJpa;
 import com.emadesko.services.ArticleService;
 // import com.emadesko.datas.repositories.list.ClientRepositoryList;
 // import com.emadesko.datas.repositories.list.CompteRepositoryList;
 import com.emadesko.services.ClientService;
 import com.emadesko.services.CompteService;
+import com.emadesko.services.DetailService;
 import com.emadesko.services.DetteService;
+import com.emadesko.services.PaiementService;
 import com.emadesko.views.ArticleView;
 import com.emadesko.views.ClientView;
 import com.emadesko.views.CompteView;
+import com.emadesko.views.DetailView;
 import com.emadesko.views.DetteView;
+import com.emadesko.views.PaiementView;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
@@ -44,6 +52,14 @@ public class Main {
         DetteRepository detteRepository = new DetteRepositoryJpa();
         DetteService detteService = new DetteService(detteRepository);
         DetteView detteView = new DetteView(scanner, detteService);
+
+        PaiementRepository paiementRepository = new PaiementRepositoryJpa();
+        PaiementService paiementService = new PaiementService(paiementRepository);
+        PaiementView paiementView = new PaiementView(scanner, paiementService);
+
+        DetailRepository detailRepository = new DetailRepositoryJpa();
+        DetailService detailService = new DetailService(detailRepository);
+        DetailView detailView = new DetailView(scanner, detailService);
 
         int choix;
         Role role = compteView.selectRole();
@@ -125,7 +141,7 @@ public class Main {
                             break;
         
                         case 2:
-                            clientView.showAll("Liste des clients");
+                            clientView.showClientsByAccountStatus();
                             break;
         
                         case 3:
@@ -133,11 +149,11 @@ public class Main {
                             break;
         
                         case 4:
-                            detteView.saisie(clientView, articleView);
+                            detteView.saisie(clientView, articleView, paiementView, detailView);
                             break;
         
                         case 5:
-                            detteView.showDettesNonSoldesByClient(clientView);
+                            detteView.showList(detteView.getDettesNonSoldesByClient(clientView), "Les dettes non soldées");
                             break;
         
                         case 6:

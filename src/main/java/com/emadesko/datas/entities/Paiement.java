@@ -23,10 +23,6 @@ import lombok.ToString;
 public class Paiement extends Entite{
     private static int nbrObjet;
     public Paiement() {
-        nbrObjet++;
-        this.id = nbrObjet;
-        this.createAt = LocalDate.now();
-        this.updateAt = LocalDate.now();
     }
 
     @Id

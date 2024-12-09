@@ -20,4 +20,11 @@ public class DetteRepositoryJpa extends RepositoryJpa<Dette> implements DetteRep
             .setParameter("isSolde", false)    
             .getResultList();
     }
+
+    @Override
+    public List<Dette> getDettesByClient(Client client) {
+        return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE client_id = :id", clazz)
+            .setParameter("id", client.getId())    
+            .getResultList();
+    }
 }
