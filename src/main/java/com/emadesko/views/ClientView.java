@@ -100,9 +100,10 @@ public class ClientView extends View<Client>{
         }
     }
 
-    public void searchClientByTelephone(List<Client> tab) {
+    public void searchClientByTelephone(List<Client> tab, DetteView detteview) {
         Client client = this.selectByTelephone(tab);
         if (client!= null) {
+            client.setDettes(detteview.getDetteService().getDettesByClient(client));
             System.out.println(client.show());
         }
     }

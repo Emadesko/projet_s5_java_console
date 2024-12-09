@@ -63,6 +63,7 @@ public class View <T>{
             System.out.println(this.objet + " n'existe");
             return null;
         }else{
+            System.out.println("#########################################");
             tab.stream().forEach(System.out::println);
             System.out.println("Veuillez entrer l'Id " + entityTxt + " ou 0 pour annuler");
             int id = scanner.nextInt();

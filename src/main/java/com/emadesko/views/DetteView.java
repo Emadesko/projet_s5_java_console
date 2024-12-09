@@ -103,9 +103,6 @@ public class DetteView extends View<Dette> {
             System.out.println("Aucune dette non solde pour ce client.");
             return null;
         }
-        for (Dette dette : dettes) {
-            dette.setClient(client);
-        }
         return dettes;
     }
 }

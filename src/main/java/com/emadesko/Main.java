@@ -46,18 +46,18 @@ public class Main {
         CompteService compteService = new CompteService(compteRepository);
         CompteView compteView = new CompteView(scanner, compteService);
 
-        DetteRepository detteRepository = new DetteRepositoryDb();
-        DetteService detteService = new DetteService(detteRepository);
-        DetteView detteView = new DetteView(scanner, detteService);
-        
-        ClientRepository clientRepository = new ClientRepositoryDb(compteRepository,detteRepository);
+        ClientRepository clientRepository = new ClientRepositoryDb(compteRepository);
         ClientService clientService = new ClientService(clientRepository);
         ClientView clientView = new ClientView(scanner, clientService);
-
+        
         ArticleRepository articleRepository = new ArticleRepositoryDb();
         ArticleService articleService = new ArticleService(articleRepository);
         ArticleView articleView = new ArticleView(scanner, articleService);
 
+        DetteRepository detteRepository = new DetteRepositoryDb(clientRepository);
+        DetteService detteService = new DetteService(detteRepository);
+        DetteView detteView = new DetteView(scanner, detteService);
+        
         PaiementRepository paiementRepository = new PaiementRepositoryDb(detteRepository);
         PaiementService paiementService = new PaiementService(paiementRepository);
         PaiementView paiementView = new PaiementView(scanner, paiementService);
@@ -151,7 +151,7 @@ public class Main {
                             break;
         
                         case 3:
-                            clientView.searchClientByTelephone(clientService.getAll());
+                            clientView.searchClientByTelephone(clientService.getAll(),detteView);
                             break;
         
                         case 4:
