@@ -9,13 +9,16 @@ import com.emadesko.core.repository.impl.RepositoryDb;
 import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.repositories.ClientRepository;
 import com.emadesko.datas.repositories.CompteRepository;
+import com.emadesko.datas.repositories.DetteRepository;
 
 public class ClientRepositoryDb extends RepositoryDb<Client> implements ClientRepository{
 
     CompteRepository compteRepository;
-    public ClientRepositoryDb(CompteRepository compteRepository){
+    DetteRepository detteRepository;
+    public ClientRepositoryDb(CompteRepository compteRepository, DetteRepository detteRepository){
         super("clients", Client.class);
         this.compteRepository = compteRepository;
+        this.detteRepository = detteRepository;
     }
     
     @Override
@@ -83,6 +86,7 @@ public class ClientRepositoryDb extends RepositoryDb<Client> implements ClientRe
         if (rs.getObject("compte_id")!= null) {
             client.setCompte(compteRepository.getById(rs.getInt("compte_id")));
         }
+        client.setDettes(detteRepository.getDettesByClient(client));
         return client;
     }
 

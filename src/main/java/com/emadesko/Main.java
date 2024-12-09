@@ -9,14 +9,19 @@ import com.emadesko.datas.repositories.CompteRepository;
 import com.emadesko.datas.repositories.DetailRepository;
 import com.emadesko.datas.repositories.DetteRepository;
 import com.emadesko.datas.repositories.PaiementRepository;
-import com.emadesko.datas.repositories.jpa.ArticleRepositoryJpa;
-// import com.emadesko.datas.repositories.db.CompteRepositoryDb;
-// import com.emadesko.datas.repositories.db.ClientRepositoryDb;
-import com.emadesko.datas.repositories.jpa.ClientRepositoryJpa;
-import com.emadesko.datas.repositories.jpa.CompteRepositoryJpa;
-import com.emadesko.datas.repositories.jpa.DetailRepositoryJpa;
-import com.emadesko.datas.repositories.jpa.DetteRepositoryJpa;
-import com.emadesko.datas.repositories.jpa.PaiementRepositoryJpa;
+import com.emadesko.datas.repositories.list.ArticleRepositoryList;
+import com.emadesko.datas.repositories.db.CompteRepositoryDb;
+import com.emadesko.datas.repositories.db.DetailRepositoryDb;
+import com.emadesko.datas.repositories.db.DetteRepositoryDb;
+import com.emadesko.datas.repositories.db.PaiementRepositoryDb;
+import com.emadesko.datas.repositories.db.ArticleRepositoryDb;
+import com.emadesko.datas.repositories.db.ClientRepositoryDb;
+import com.emadesko.datas.repositories.list.ClientRepositoryList;
+import com.emadesko.datas.repositories.list.CompteRepositoryList;
+import com.emadesko.datas.repositories.list.DetailRepositoryList;
+import com.emadesko.datas.repositories.list.DetteRepositoryList;
+import com.emadesko.datas.repositories.list.PaiementRepositoryList;
+import com.emadesko.datas.repositories.list.CompteRepositoryList;
 import com.emadesko.services.ArticleService;
 // import com.emadesko.datas.repositories.list.ClientRepositoryList;
 // import com.emadesko.datas.repositories.list.CompteRepositoryList;
@@ -37,27 +42,27 @@ public class Main {
 
     public static void main(String[] args) {
 
-        CompteRepository compteRepository = new CompteRepositoryJpa();
+        CompteRepository compteRepository = new CompteRepositoryDb();
         CompteService compteService = new CompteService(compteRepository);
         CompteView compteView = new CompteView(scanner, compteService);
+
+        DetteRepository detteRepository = new DetteRepositoryDb();
+        DetteService detteService = new DetteService(detteRepository);
+        DetteView detteView = new DetteView(scanner, detteService);
         
-        ClientRepository clientRepository = new ClientRepositoryJpa();
+        ClientRepository clientRepository = new ClientRepositoryDb(compteRepository,detteRepository);
         ClientService clientService = new ClientService(clientRepository);
         ClientView clientView = new ClientView(scanner, clientService);
 
-        ArticleRepository articleRepository = new ArticleRepositoryJpa();
+        ArticleRepository articleRepository = new ArticleRepositoryDb();
         ArticleService articleService = new ArticleService(articleRepository);
         ArticleView articleView = new ArticleView(scanner, articleService);
 
-        DetteRepository detteRepository = new DetteRepositoryJpa();
-        DetteService detteService = new DetteService(detteRepository);
-        DetteView detteView = new DetteView(scanner, detteService);
-
-        PaiementRepository paiementRepository = new PaiementRepositoryJpa();
+        PaiementRepository paiementRepository = new PaiementRepositoryDb(detteRepository);
         PaiementService paiementService = new PaiementService(paiementRepository);
         PaiementView paiementView = new PaiementView(scanner, paiementService);
 
-        DetailRepository detailRepository = new DetailRepositoryJpa();
+        DetailRepository detailRepository = new DetailRepositoryDb(detteRepository, articleRepository);
         DetailService detailService = new DetailService(detailRepository);
         DetailView detailView = new DetailView(scanner, detailService);
 
@@ -130,7 +135,8 @@ public class Main {
                     System.out.println("3: Rechercher client par téléphone");
                     System.out.println("4: Créer une dette");
                     System.out.println("5: Lister les dettes non soldées d'un client");
-                    System.out.println("6: Lister les demandes de dette");
+                    System.out.println("6: Enregistrer un paiement pour une dette");
+                    System.out.println("7: Lister les demandes de dette");
                     System.out.println("0: Déconnexion");
                     choix = scanner.nextInt();
                     scanner.nextLine();
@@ -157,6 +163,10 @@ public class Main {
                             break;
         
                         case 6:
+                            paiementView.saisie(detteView, clientView, null);
+                            break;
+        
+                        case 7:
                             
                             break;
         

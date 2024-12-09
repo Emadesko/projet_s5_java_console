@@ -9,14 +9,11 @@ import com.emadesko.core.repository.impl.RepositoryDb;
 import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.entities.Dette;
 import com.emadesko.datas.repositories.DetteRepository;
-import com.emadesko.datas.repositories.ClientRepository;
 
 public class DetteRepositoryDb extends RepositoryDb<Dette> implements DetteRepository{
 
-    ClientRepository clientRepository;
-    public DetteRepositoryDb(ClientRepository clientRepository){
+    public DetteRepositoryDb(){
         super("dettes", Dette.class);
-        this.clientRepository = clientRepository;
     }
 
     @Override
@@ -64,7 +61,6 @@ public class DetteRepositoryDb extends RepositoryDb<Dette> implements DetteRepos
         dette.setMontant(rs.getDouble("montant"));
         dette.setMontantVerser(rs.getDouble("montantVerser"));
         dette.setSolde(rs.getBoolean("isSolde"));
-        dette.setClient(clientRepository.getById(rs.getInt("client_id")));
         return dette;
     }
 

@@ -1,7 +1,6 @@
 package com.emadesko.views;
 
 import com.emadesko.datas.entities.Dette;
-import com.emadesko.datas.entities.Paiement;
 import com.emadesko.datas.entities.Article;
 import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.entities.Detail;
@@ -103,6 +102,9 @@ public class DetteView extends View<Dette> {
         if (dettes.isEmpty()) {
             System.out.println("Aucune dette non solde pour ce client.");
             return null;
+        }
+        for (Dette dette : dettes) {
+            dette.setClient(client);
         }
         return dettes;
     }
