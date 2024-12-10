@@ -15,7 +15,7 @@ public class DetailView extends View<Detail>{
     }
 
     public DetailView(Scanner scanner, DetailService detailService) {
-        super(scanner,detailService,"Aucun detail");
+        super(scanner,detailService,"Aucun detail", "Articles de la dette");
         this.detailService = detailService;
     }
 

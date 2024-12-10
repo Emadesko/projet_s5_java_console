@@ -18,7 +18,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"dette"})
 @Table(name = "paiements")
 public class Paiement extends Entite{
     private static int nbrObjet;

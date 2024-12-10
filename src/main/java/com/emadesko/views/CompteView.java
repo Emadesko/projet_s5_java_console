@@ -18,7 +18,7 @@ public class CompteView extends View<Compte> {
     }
 
     public CompteView(Scanner scanner, CompteService compteService) {
-        super(scanner, compteService, "Aucun compte");
+        super(scanner, compteService, "Aucun compte", "Liste des comptes");
         this.compteService = compteService;
     }
 
@@ -94,7 +94,7 @@ public class CompteView extends View<Compte> {
 
     public Compte selectByLogin(List<Compte> tab) {
         if (tab.isEmpty()) {
-            System.out.println(this.objet + " n'existe");
+            System.out.println(this.emptyTabTxt + " n'existe");
             return null;
         }else{
             tab.stream().forEach(System.out::println);
@@ -129,18 +129,18 @@ public class CompteView extends View<Compte> {
         for (Role role : Role.values()) {
             List<Compte> comptes = compteService.getComptesByRole(role);
             System.out.println("#########################################################");
-            super.objet="Aucun compte de rôle " + role.name();
+            super.emptyTabTxt="Aucun compte de rôle " + role.name();
             super.showList(comptes, "Comptes de rôle " + role.name());
-            super.objet="Aucun compte";
+            super.emptyTabTxt="Aucun compte";
             System.out.println();
         }
     }
 
     public void listComptesActifs() {
         List<Compte> comptes = compteService.getComptesByEtat(true);
-        super.objet="Aucun compte actif";
+        super.emptyTabTxt="Aucun compte actif";
         super.showList(comptes, "Liste des comptes actifs");
-        super.objet="Aucun compte";
+        super.emptyTabTxt="Aucun compte";
     }
 
     public int listComptesActifsOuParRole() {

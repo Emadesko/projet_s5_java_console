@@ -17,7 +17,7 @@ public class ArticleView extends View<Article>{
     }
 
     public ArticleView(Scanner scanner, ArticleService articleService) {
-        super(scanner,articleService,"Aucun Article");
+        super(scanner,articleService,"Aucun Article", "Liste des articles");
         this.articleService = articleService;
     }
 
@@ -65,27 +65,27 @@ public class ArticleView extends View<Article>{
     public void listArticleParDisponibilité() {
         List<Article> articles = articleService.getAvailableArticles();
         System.out.println("#########################################################");
-        super.objet="Aucun article disponible";
+        super.emptyTabTxt="Aucun article disponible";
         super.showList(articles, "Articles disponibles");
         System.out.println();
         articles = articleService.getUnavailableArticles();
         System.out.println("#########################################################");
-        super.objet="Aucun article indisponible";
+        super.emptyTabTxt="Aucun article indisponible";
         super.showList(articles, "Articles indisponibles");
-        super.objet="Aucun article";
+        super.emptyTabTxt="Aucun article";
         System.out.println();
     }
 
     public Article chooseArticle(){
-        this.objet="Aucun article disponible";
+        this.emptyTabTxt="Aucun article disponible";
         Article article= selectByLibelle(articleService.getAvailableArticles());
-        this.objet="Aucun article";
+        this.emptyTabTxt="Aucun article";
         return article;
     }
 
     public Article selectByLibelle(List<Article> tab) {
         if (tab.isEmpty()) {
-            System.out.println(this.objet + " n'existe");
+            System.out.println(this.emptyTabTxt + " n'existe");
             return null;
         }else{
             tab.stream().forEach(System.out::println);

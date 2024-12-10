@@ -16,7 +16,7 @@ public class PaiementView extends View<Paiement>{
     }
 
     public PaiementView(Scanner scanner, PaiementService paiementService) {
-        super(scanner,paiementService,"Aucun paiement");
+        super(scanner,paiementService,"Aucun paiement" ,"Liste des paiements");
         this.paiementService = paiementService;
     }
 

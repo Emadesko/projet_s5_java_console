@@ -9,25 +9,31 @@ public class View <T>{
     
     protected Scanner scanner;
     protected Service<T> service;
-    protected String objet;
+    protected String emptyTabTxt;
+    protected String listTxt;
 
-    public View(Scanner scanner, Service<T> service, String objet) {
+    public View(Scanner scanner, Service<T> service, String emptyTabTxt, String listTxt) {
         this.scanner = scanner;
         this.service = service;
-        this.objet = objet;
+        this.emptyTabTxt = emptyTabTxt;
+        this.listTxt = listTxt;
     }
 
     
-    public void showAll(String listTxt){
-        showList(service.getAll(),listTxt);
+    public void showAll(){
+        showList(service.getAll(),this.listTxt);
     }
 
-    public void showList(List<T> list, String listTxt){
+    public void showList(List<T> list, String txt){
         if (list.isEmpty()) {
-            System.out.println(this.objet + " n'existe");
+            System.out.println(this.emptyTabTxt + " n'existe\n");
         }else{
-            System.out.println(listTxt);
-            list.stream().forEach(System.out::println);
+            if (txt == null) {
+                txt = this.listTxt;
+            }
+            System.out.println(txt);
+            list.stream().forEach(data -> System.out.println("\n" + data));
+            System.out.println("\n");
         }
     }
 
@@ -60,11 +66,11 @@ public class View <T>{
 
     public T select(List<T> tab, String entityTxt, String entityNone) {
         if (tab.isEmpty()) {
-            System.out.println(this.objet + " n'existe");
+            System.out.println(this.emptyTabTxt + " n'existe");
             return null;
         }else{
             System.out.println("#########################################");
-            tab.stream().forEach(System.out::println);
+            this.showList(tab, this.listTxt);
             System.out.println("Veuillez entrer l'Id " + entityTxt + " ou 0 pour annuler");
             int id = scanner.nextInt();
             scanner.nextLine();

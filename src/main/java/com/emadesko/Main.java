@@ -2,6 +2,7 @@ package com.emadesko;
 
 import java.util.Scanner;
 
+import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.enums.Role;
 import com.emadesko.datas.repositories.ArticleRepository;
 import com.emadesko.datas.repositories.ClientRepository;
@@ -103,7 +104,7 @@ public class Main {
                             break;
         
                         case 5:
-                            articleView.showAll("Liste des articles");
+                            articleView.showAll();
                             break;
         
                         case 6:
@@ -151,7 +152,7 @@ public class Main {
                             break;
         
                         case 3:
-                            clientView.searchClientByTelephone(clientService.getAll(),detteView);
+                            clientView.searchClientByTelephone(detteView);
                             break;
         
                         case 4:
@@ -159,7 +160,7 @@ public class Main {
                             break;
         
                         case 5:
-                            detteView.showList(detteView.getDettesNonSoldesByClient(clientView), "Les dettes non soldées");
+                            detteView.showDettesDettesNonSoldesByClientWith(clientView, paiementView, detailView, null);
                             break;
         
                         case 6:
@@ -181,7 +182,42 @@ public class Main {
                 } while (choix != 0);
                 break;
             case Client:
-                
+                Client client = clientView.selectByTelephone(clientService.getAll());
+                do {
+                    System.out.println("1: Lister mes dettes non soldées");
+                    System.out.println("2: Faire une demande de dette");
+                    System.out.println("3: Lister mes demandes de dette");
+                    System.out.println("4: Envoyer une relance pour une demande de dette annuler");
+                    System.out.println("0: Déconnexion");
+                    choix = scanner.nextInt();
+                    scanner.nextLine();
+        
+                    switch (choix) {
+                        case 1:
+                            detteView.showDettesDettesNonSoldesByClientWith(clientView, paiementView, detailView, client);
+                            break;
+        
+                        case 2:
+                            clientView.showClientsByAccountStatus();
+                            break;
+        
+                        case 3:
+                            clientView.searchClientByTelephone(detteView);
+                            break;
+        
+                        case 4:
+                            detteView.saisie(clientView, articleView, paiementView, detailView);
+                            break;
+        
+                        case 0:
+        
+                            break;
+        
+                        default:
+                            System.out.println("Veuillez faire un bon choix!!");
+                            break;
+                    }
+                } while (choix != 0);
                 break;
         
             default:

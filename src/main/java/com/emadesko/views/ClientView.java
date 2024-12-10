@@ -18,7 +18,7 @@ public class ClientView extends View<Client>{
     }
 
     public ClientView(Scanner scanner, ClientService clientService) {
-        super(scanner,clientService,"Aucun client");
+        super(scanner,clientService,"Aucun client", "Liste des clients");
         this.clientService = clientService;
     }
 
@@ -61,15 +61,15 @@ public class ClientView extends View<Client>{
     }
 
     public Client chooseClient(List <Client> tab , String txt){
-        this.objet="Aucun client " + txt + " compte";
+        this.emptyTabTxt="Aucun client " + txt + " compte";
         Client client= selectByTelephone(tab);
-        this.objet="Aucun client";
+        this.emptyTabTxt="Aucun client";
         return client;
     }
 
     public Client selectByTelephone(List<Client> tab) {
         if (tab.isEmpty()) {
-            System.out.println(this.objet + " n'existe");
+            System.out.println(this.emptyTabTxt + " n'existe");
             return null;
         }else{
             tab.stream().forEach(System.out::println);
@@ -100,8 +100,8 @@ public class ClientView extends View<Client>{
         }
     }
 
-    public void searchClientByTelephone(List<Client> tab, DetteView detteview) {
-        Client client = this.selectByTelephone(tab);
+    public void searchClientByTelephone(DetteView detteview) {
+        Client client = this.selectByTelephone(this.clientService.getAll());
         if (client!= null) {
             client.setDettes(detteview.getDetteService().getDettesByClient(client));
             System.out.println(client.show());
@@ -111,16 +111,16 @@ public class ClientView extends View<Client>{
     public void showClientsByAccountStatus(){
         List<Client> clients=clientService.getClientsByAccountStatus(true);
         System.out.println("#########################################################");
-        super.objet="Aucun client avec compte";
+        super.emptyTabTxt="Aucun client avec compte";
         this.showList(clients,"Clients avec compte");
         System.out.println();
 
         clients=clientService.getClientsByAccountStatus(false);
         System.out.println("#########################################################");
-        super.objet="Aucun client sans compte";
+        super.emptyTabTxt="Aucun client sans compte";
         this.showList(clients,"Clients sans compte");
         System.out.println();
 
-        super.objet="Aucun client";
+        super.emptyTabTxt="Aucun client";
     }
 }

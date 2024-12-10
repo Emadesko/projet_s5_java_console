@@ -13,14 +13,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "details")
 public class Detail extends Entite{
+    @Override
+    public String toString() {
+        return "Article \nid= " + article.getId()  + "\nLibelle=" + article.getLibelle() + "\nQuantité prise = " + qte + "\nPrix de vente = " + prix + "\nTotal = " + total;
+    }
+
     private static int nbrObjet;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
