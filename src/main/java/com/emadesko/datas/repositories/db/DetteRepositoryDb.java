@@ -5,15 +5,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.emadesko.core.repository.impl.RepositoryDb;
 import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.entities.Dette;
 import com.emadesko.datas.repositories.ClientRepository;
 import com.emadesko.datas.repositories.DetteRepository;
 
-public class DetteRepositoryDb extends RepositoryDb<Dette> implements DetteRepository{
+public class DetteRepositoryDb extends DetteMereRepositoryDb<Dette> implements DetteRepository{
 
-    ClientRepository clientRepository;
+    private ClientRepository clientRepository;
 
     public DetteRepositoryDb(ClientRepository clientRepository){
         super("dettes", Dette.class);
@@ -90,8 +89,4 @@ public class DetteRepositoryDb extends RepositoryDb<Dette> implements DetteRepos
         return datas;
     }
 
-    @Override
-    public List<Dette> getDettesByClient(Client client) {
-        return super.getManyBy("client_id =", client.getId());
-    }
 }

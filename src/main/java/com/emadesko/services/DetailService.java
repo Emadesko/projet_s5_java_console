@@ -6,7 +6,7 @@ import com.emadesko.datas.entities.Dette;
 import com.emadesko.datas.entities.Detail;
 import com.emadesko.datas.repositories.DetailRepository;
 
-public class DetailService extends ServiceImpl<Detail>{
+public class DetailService extends DetailMereService<Detail>{
     
     private DetailRepository detailRepository;
 
@@ -16,6 +16,6 @@ public class DetailService extends ServiceImpl<Detail>{
     }
 
     public List <Detail> getDetailsByDette(Dette dette){
-        return this.detailRepository.getDetailsByDette(dette);
+        return this.detailRepository.getDetailMeresByDetteMere(dette);
     }
 }

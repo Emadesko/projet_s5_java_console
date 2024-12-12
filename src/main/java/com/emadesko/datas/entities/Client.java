@@ -20,7 +20,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString(exclude = {"dettes","compte"})
+@ToString(exclude = {"dettes","compte","demandes"})
 @Entity
 @Table(name = "clients" )
 public class Client extends Entite{
@@ -68,4 +68,7 @@ public class Client extends Entite{
 
     @OneToMany(mappedBy = "client")
     private List<Dette> dettes= new ArrayList<>();
+
+    @OneToMany(mappedBy = "client")
+    private List<Demande> demandes= new ArrayList<>();
 }

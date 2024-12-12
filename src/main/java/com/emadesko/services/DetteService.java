@@ -6,7 +6,7 @@ import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.entities.Dette;
 import com.emadesko.datas.repositories.DetteRepository;
 
-public class DetteService extends ServiceImpl<Dette>{
+public class DetteService extends DetteMereService<Dette>{
     
     private DetteRepository detteRepository;
 
@@ -18,10 +18,5 @@ public class DetteService extends ServiceImpl<Dette>{
     public List <Dette> getDettesNonSoldesByClient(Client client){
         return this.detteRepository.getDettesNonSoldesByClient(client);
     }
-    
-    public List <Dette> getDettesByClient(Client client){
-        return this.detteRepository.getDettesByClient(client);
-    }
-
 
 }

@@ -7,14 +7,27 @@ import com.emadesko.datas.enums.Role;
 import com.emadesko.datas.repositories.ArticleRepository;
 import com.emadesko.datas.repositories.ClientRepository;
 import com.emadesko.datas.repositories.CompteRepository;
+import com.emadesko.datas.repositories.DemandeRepository;
+import com.emadesko.datas.repositories.DetailDemandeRepository;
 import com.emadesko.datas.repositories.DetailRepository;
 import com.emadesko.datas.repositories.DetteRepository;
 import com.emadesko.datas.repositories.PaiementRepository;
 import com.emadesko.datas.repositories.list.ArticleRepositoryList;
 import com.emadesko.datas.repositories.db.CompteRepositoryDb;
+import com.emadesko.datas.repositories.db.DemandeRepositoryDb;
+import com.emadesko.datas.repositories.db.DetailDemandeRepositoryDb;
+import com.emadesko.datas.repositories.db.DetailMereRepositoryDb;
 import com.emadesko.datas.repositories.db.DetailRepositoryDb;
 import com.emadesko.datas.repositories.db.DetteRepositoryDb;
 import com.emadesko.datas.repositories.db.PaiementRepositoryDb;
+import com.emadesko.datas.repositories.jpa.ArticleRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.ClientRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.CompteRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.DemandeRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.DetailDemandeRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.DetailRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.DetteRepositoryJpa;
+import com.emadesko.datas.repositories.jpa.PaiementRepositoryJpa;
 import com.emadesko.datas.repositories.db.ArticleRepositoryDb;
 import com.emadesko.datas.repositories.db.ClientRepositoryDb;
 import com.emadesko.datas.repositories.list.ClientRepositoryList;
@@ -28,12 +41,16 @@ import com.emadesko.services.ArticleService;
 // import com.emadesko.datas.repositories.list.CompteRepositoryList;
 import com.emadesko.services.ClientService;
 import com.emadesko.services.CompteService;
+import com.emadesko.services.DemandeService;
+import com.emadesko.services.DetailDemandeService;
 import com.emadesko.services.DetailService;
 import com.emadesko.services.DetteService;
 import com.emadesko.services.PaiementService;
 import com.emadesko.views.ArticleView;
 import com.emadesko.views.ClientView;
 import com.emadesko.views.CompteView;
+import com.emadesko.views.DemandeView;
+import com.emadesko.views.DetailDemandeView;
 import com.emadesko.views.DetailView;
 import com.emadesko.views.DetteView;
 import com.emadesko.views.PaiementView;
@@ -43,29 +60,37 @@ public class Main {
 
     public static void main(String[] args) {
 
-        CompteRepository compteRepository = new CompteRepositoryDb();
+        CompteRepository compteRepository = new CompteRepositoryJpa();
         CompteService compteService = new CompteService(compteRepository);
         CompteView compteView = new CompteView(scanner, compteService);
 
-        ClientRepository clientRepository = new ClientRepositoryDb(compteRepository);
+        ClientRepository clientRepository = new ClientRepositoryJpa();
         ClientService clientService = new ClientService(clientRepository);
         ClientView clientView = new ClientView(scanner, clientService);
         
-        ArticleRepository articleRepository = new ArticleRepositoryDb();
+        ArticleRepository articleRepository = new ArticleRepositoryJpa();
         ArticleService articleService = new ArticleService(articleRepository);
         ArticleView articleView = new ArticleView(scanner, articleService);
 
-        DetteRepository detteRepository = new DetteRepositoryDb(clientRepository);
+        DetteRepository detteRepository = new DetteRepositoryJpa();
         DetteService detteService = new DetteService(detteRepository);
         DetteView detteView = new DetteView(scanner, detteService);
         
-        PaiementRepository paiementRepository = new PaiementRepositoryDb(detteRepository);
+        PaiementRepository paiementRepository = new PaiementRepositoryJpa();
         PaiementService paiementService = new PaiementService(paiementRepository);
         PaiementView paiementView = new PaiementView(scanner, paiementService);
 
-        DetailRepository detailRepository = new DetailRepositoryDb(detteRepository, articleRepository);
+        DetailRepository detailRepository = new DetailRepositoryJpa();
         DetailService detailService = new DetailService(detailRepository);
         DetailView detailView = new DetailView(scanner, detailService);
+
+        DemandeRepository demandeRepository = new DemandeRepositoryJpa();
+        DemandeService demandeService = new DemandeService(demandeRepository);
+        DemandeView demandeView = new DemandeView(scanner, demandeService);
+        
+        DetailDemandeRepository detailDemandeRepository = new DetailDemandeRepositoryJpa();
+        DetailDemandeService detailDemandeService = new DetailDemandeService(detailDemandeRepository);
+        DetailDemandeView detailDemandeView = new DetailDemandeView(scanner, detailDemandeService);
 
         int choix;
         Role role = compteView.selectRole();
@@ -198,11 +223,11 @@ public class Main {
                             break;
         
                         case 2:
-                            clientView.showClientsByAccountStatus();
+                            demandeView.saisie(client, articleView, detailDemandeView);
                             break;
         
                         case 3:
-                            clientView.searchClientByTelephone(detteView);
+                            demandeView.showMyDemandes(client);
                             break;
         
                         case 4:

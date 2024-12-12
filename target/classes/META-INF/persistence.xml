@@ -22,6 +22,12 @@ version="2.2">
 			com.emadesko.datas.entities.Detail
 		</class>
 		<class>
+			com.emadesko.datas.entities.Demande
+		</class>
+		<class>
+			com.emadesko.datas.entities.DetailDemande
+		</class>
+		<class>
 			com.emadesko.datas.entities.Article
 		</class>
 		<class>

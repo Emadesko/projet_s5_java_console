@@ -103,7 +103,7 @@ public class ClientView extends View<Client>{
     public void searchClientByTelephone(DetteView detteview) {
         Client client = this.selectByTelephone(this.clientService.getAll());
         if (client!= null) {
-            client.setDettes(detteview.getDetteService().getDettesByClient(client));
+            client.setDettes(detteview.getDetteService().getDetteMeresByClient(client));
             System.out.println(client.show());
         }
     }

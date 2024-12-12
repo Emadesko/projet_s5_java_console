@@ -43,14 +43,24 @@ public class RepositoryJpa<T extends Entite> implements Repository<T> {
     }
 
     public T selectBy(String condition, String paramName, Object paramValue) {
-    try {
-        return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE " + condition, clazz)
-                 .setParameter(paramName, paramValue)
-                 .getSingleResult();
-    } catch (NoResultException e) {
-        return null;
+        try {
+            return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE " + condition, clazz)
+                    .setParameter(paramName, paramValue)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
-}
+
+    public List<T> selectManyBy(String condition, String paramName, Object paramValue) {
+        try {
+            return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE " + condition, clazz)
+                    .setParameter(paramName, paramValue)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
     @Override
     public void delete(T object) {

@@ -132,7 +132,6 @@ public class CompteView extends View<Compte> {
             super.emptyTabTxt="Aucun compte de rôle " + role.name();
             super.showList(comptes, "Comptes de rôle " + role.name());
             super.emptyTabTxt="Aucun compte";
-            System.out.println();
         }
     }
 
