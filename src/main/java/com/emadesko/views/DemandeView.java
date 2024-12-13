@@ -113,11 +113,13 @@ public class DemandeView extends View<Demande> {
                             choix = super.choixSousMenu("1- Accepter la demande \n2- Rejeter la demande \n3- Retour", 3);
                             if (choix == 1) {
                                 List<DetailDemande> qteNonDispo = new ArrayList<>();
+                                demande.setDetailsDemandes(detailDemandeView.getDetailDemandeService().getDetailsByDemande(demande));
                                 for (DetailDemande detailDemande : demande.getDetailsDemandes()) {
                                     int qteRestante= articleView.getArticleService().getArticleByLibelle(detailDemande.getArticle().getLibelle()).getQteStock();
                                     if (detailDemande.getQte()  > qteRestante) {
                                         qteNonDispo.add(detailDemande);
-                                        System.out.println(detailDemande.getQte() + " " + detailDemande.getArticle().getLibelle() + " a(ont) été demandé. Actuellement il n'en reste que " + qteRestante);
+                                        System.out.
+                                        println(detailDemande.getQte() + " " + detailDemande.getArticle().getLibelle() + " a(ont) été demandé. Actuellement il n'en reste que " + qteRestante);
                                     }
                                 }
                                 if (qteNonDispo.isEmpty()) {
@@ -156,7 +158,7 @@ public class DemandeView extends View<Demande> {
                     }
 
                 } else if (choix == 2) {
-                    Demande demande = super.select(demandes, "de la demande", "Aucune demande\n");
+                    Demande demande = super.select(demandeService.getAll(), "de la demande", "Aucune demande\n");
                     if (demande != null) {
                         System.out.println("###############################################\n");
                         detailDemandeView.showList(

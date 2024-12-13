@@ -60,35 +60,35 @@ public class Main {
 
     public static void main(String[] args) {
 
-        CompteRepository compteRepository = new CompteRepositoryJpa();
+        CompteRepository compteRepository = new CompteRepositoryDb();
         CompteService compteService = new CompteService(compteRepository);
         CompteView compteView = new CompteView(scanner, compteService);
 
-        ClientRepository clientRepository = new ClientRepositoryJpa();
+        ClientRepository clientRepository = new ClientRepositoryDb(compteRepository);
         ClientService clientService = new ClientService(clientRepository);
         ClientView clientView = new ClientView(scanner, clientService);
         
-        ArticleRepository articleRepository = new ArticleRepositoryJpa();
+        ArticleRepository articleRepository = new ArticleRepositoryDb();
         ArticleService articleService = new ArticleService(articleRepository);
         ArticleView articleView = new ArticleView(scanner, articleService);
 
-        DetteRepository detteRepository = new DetteRepositoryJpa();
+        DetteRepository detteRepository = new DetteRepositoryDb(clientRepository);
         DetteService detteService = new DetteService(detteRepository);
         DetteView detteView = new DetteView(scanner, detteService);
         
-        PaiementRepository paiementRepository = new PaiementRepositoryJpa();
+        PaiementRepository paiementRepository = new PaiementRepositoryDb(detteRepository);
         PaiementService paiementService = new PaiementService(paiementRepository);
         PaiementView paiementView = new PaiementView(scanner, paiementService);
 
-        DetailRepository detailRepository = new DetailRepositoryJpa();
+        DetailRepository detailRepository = new DetailRepositoryDb(detteRepository,articleRepository);
         DetailService detailService = new DetailService(detailRepository);
         DetailView detailView = new DetailView(scanner, detailService);
 
-        DemandeRepository demandeRepository = new DemandeRepositoryJpa();
+        DemandeRepository demandeRepository = new DemandeRepositoryDb(clientRepository);
         DemandeService demandeService = new DemandeService(demandeRepository);
         DemandeView demandeView = new DemandeView(scanner, demandeService);
         
-        DetailDemandeRepository detailDemandeRepository = new DetailDemandeRepositoryJpa();
+        DetailDemandeRepository detailDemandeRepository = new DetailDemandeRepositoryDb(demandeRepository,articleRepository);
         DetailDemandeService detailDemandeService = new DetailDemandeService(detailDemandeRepository);
         DetailDemandeView detailDemandeView = new DetailDemandeView(scanner, detailDemandeService);
 

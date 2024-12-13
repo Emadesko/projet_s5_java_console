@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table()
+@Table(name = "details_demande")
 public class DetailDemande extends DetailMere{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

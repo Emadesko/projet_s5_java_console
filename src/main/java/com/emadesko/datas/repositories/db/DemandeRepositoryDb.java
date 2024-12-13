@@ -22,7 +22,7 @@ public class DemandeRepositoryDb extends DetteMereRepositoryDb<Demande> implemen
 
     @Override
     public String generateSql(Demande demande) {
-        return "INSERT INTO " + this.tableName + " (`createAt`, `etat`, `montant`, `updateAt`, `client_id`) VALUES (?, ?, ?, ?, ?, ?);";
+        return "INSERT INTO " + this.tableName + " (`createAt`, `etat`, `montant`, `updateAt`, `client_id`) VALUES (?, ?, ?, ?, ?);";
     }
 
     @Override
