@@ -80,8 +80,8 @@ public class DemandeView extends View<Demande> {
         for (Etat etat : Etat.values()) {
             List<Demande> demandes = demandeService.getDemandesByEtatAndClient(etat,client);
             System.out.println("#########################################################");
-            super.emptyTabTxt="Aucune demande  " + etat.name();
-            super.showList(demandes, "Comptes de rôle " + etat.name());
+            super.emptyTabTxt="Aucune demande " + etat.name();
+            super.showList(demandes, "Liste des demandes " + etat.name());
             super.emptyTabTxt="Aucune demande";
         }
     }

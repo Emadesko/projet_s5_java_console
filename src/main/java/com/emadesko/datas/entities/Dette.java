@@ -47,9 +47,8 @@ public class Dette extends DetteMere{
     }
     @Override
     public String toString() {
-        return "Dette [montant=" + montant + ", client=" + client + ", id=" + id + ", createAt=" + createAt
-                + ", montantVerser=" + montantVerser + ", updateAt=" + updateAt + ", isSolde=" + isSolde + ", details="
-                + details + "]";
+        return "Dette [id=" + id + ", montant=" + montant + ", client=" + client + ", createAt=" + createAt
+                + ", montantVerser=" + montantVerser + ", updateAt=" + updateAt + ", isSolde=" + isSolde + "]";
     }
 
 }

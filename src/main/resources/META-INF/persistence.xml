@@ -16,6 +16,9 @@ version="2.2">
 			com.emadesko.datas.entities.Compte
 		</class>
 		<class>
+			com.emadesko.datas.entities.Article
+		</class>
+		<class>
 			com.emadesko.datas.entities.Dette
 		</class>
 		<class>
@@ -26,9 +29,6 @@ version="2.2">
 		</class>
 		<class>
 			com.emadesko.datas.entities.DetailDemande
-		</class>
-		<class>
-			com.emadesko.datas.entities.Article
 		</class>
 		<class>
 			com.emadesko.datas.entities.Paiement

@@ -117,18 +117,20 @@ public class DetteView extends View<Dette> {
         if (dettes!= null) {
             System.out.println("###############################################");
             this.showList(dettes, "Liste des dettes non soldées");
-            int choix = super.choixSousMenu("1- Voir les paiements d'une dette \n2- Voir les articles d'une dette \n3- Retour", 3);
-            while (choix != 3){
-                Dette dette = super.select(dettes, "de la dette", "Aucune dette");
-                if (dette!= null) {
-                    if (choix == 1) {
-                        System.out.println("###############################################");
-                        paiementView.showList(paiementView.getPaiementService().getPaiementsByDette(dette), null);;
-                    } else if (choix == 2) {
-                        System.out.println("###############################################");
-                        detailView.showList(detailView.getDetailService().getDetailsByDette(dette), null);;
+            if (!dettes.isEmpty()) {
+                int choix = super.choixSousMenu("1- Voir les paiements d'une dette \n2- Voir les articles d'une dette \n3- Retour", 3);
+                while (choix != 3){
+                    Dette dette = super.select(dettes, "de la dette", "Aucune dette");
+                    if (dette!= null) {
+                        if (choix == 1) {
+                            System.out.println("###############################################");
+                            paiementView.showList(paiementView.getPaiementService().getPaiementsByDette(dette), null);;
+                        } else if (choix == 2) {
+                            System.out.println("###############################################");
+                            detailView.showList(detailView.getDetailService().getDetailsByDette(dette), null);;
+                        }
+                        choix = super.choixSousMenu("1- Voir les paiements d'une dette \n2- Voir les articles d'une dette \n3- Retour", 3);
                     }
-                    choix = super.choixSousMenu("1- Voir les paiements d'une dette \n2- Voir les articles d'une dette \n3- Retour", 3);
                 }
             }
         }
