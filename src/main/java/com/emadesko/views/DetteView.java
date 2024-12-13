@@ -129,8 +129,8 @@ public class DetteView extends View<Dette> {
                             System.out.println("###############################################");
                             detailView.showList(detailView.getDetailService().getDetailsByDette(dette), null);;
                         }
-                        choix = super.choixSousMenu("1- Voir les paiements d'une dette \n2- Voir les articles d'une dette \n3- Retour", 3);
                     }
+                    choix = super.choixSousMenu("1- Voir les paiements d'une dette \n2- Voir les articles d'une dette \n3- Retour", 3);
                 }
             }
         }

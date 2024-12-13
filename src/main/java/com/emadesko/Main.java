@@ -104,7 +104,6 @@ public class Main {
                     System.out.println("5: Lister des articles");
                     System.out.println("6: Filtrer les articles par disponibilité");
                     System.out.println("7: Mettre à jour la quantité en stock d'un article");
-                    System.out.println("8: Archiver les dettes soldées");
                     System.out.println("0: Déconnexion");
                     choix = scanner.nextInt();
                     scanner.nextLine();
@@ -138,9 +137,6 @@ public class Main {
         
                         case 7:
                             articleView.updateQteStock();
-                            break;
-        
-                        case 8:
                             break;
         
                         case 0:
@@ -193,7 +189,7 @@ public class Main {
                             break;
         
                         case 7:
-                            
+                            demandeView.showAllDemandes(detailDemandeView,detailView,detteView,paiementView,articleView);
                             break;
         
                         case 0:
@@ -231,7 +227,7 @@ public class Main {
                             break;
         
                         case 4:
-                            detteView.saisie(clientView, articleView, paiementView, detailView);
+                            demandeView.sendRelanceDemandeAnnulee(client);
                             break;
         
                         case 0:

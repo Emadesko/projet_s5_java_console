@@ -1,5 +1,5 @@
 package com.emadesko.datas.enums;
 
 public enum Etat {
-    EnCours, Rejetée, Accceptée
+    EnCours, Rejetée, Acceptée
 }

@@ -4,6 +4,7 @@ import com.emadesko.datas.entities.Paiement;
 import com.emadesko.datas.entities.Dette;
 import com.emadesko.services.PaiementService;
 
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -22,7 +23,11 @@ public class PaiementView extends View<Paiement>{
 
     public Paiement saisie(DetteView detteView,ClientView clientView, Dette dette){
         if (dette == null) {
-            dette = detteView.select(detteView.getDettesNonSoldesByClient(clientView), "de la dette", "Aucune dette" );
+            List<Dette> dettes = detteView.getDettesNonSoldesByClient(clientView);
+            if (dettes == null || dettes.isEmpty()) {
+                return null;
+            }
+            dette = detteView.select(dettes, "de la dette", "Aucune dette" );
             if (dette == null) {
                 return null;
             }
@@ -45,8 +50,8 @@ public class PaiementView extends View<Paiement>{
         if (dette.getMontant() == dette.getMontantVerser()) {
             dette.setSolde(true);
         }
-        detteView.getDetteService().update(dette);
         this.paiementService.create(paiement);
+        detteView.getDetteService().update(dette);
         return paiement;
     }
 }

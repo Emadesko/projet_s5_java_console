@@ -65,7 +65,7 @@ public class View <T>{
     }
 
     public T select(List<T> tab, String entityTxt, String entityNone) {
-        if (tab.isEmpty()) {
+        if (tab == null || tab.isEmpty()) {
             System.out.println(this.emptyTabTxt + " n'existe");
             return null;
         }else{
