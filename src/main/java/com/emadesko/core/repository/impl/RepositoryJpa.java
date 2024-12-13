@@ -1,6 +1,7 @@
 package com.emadesko.core.repository.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -8,16 +9,22 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 
 import com.emadesko.core.repository.Repository;
+import com.emadesko.core.services.YamlService;
+import com.emadesko.core.services.impl.YamlServiceImpl;
 import com.emadesko.datas.entities.Entite;
 
 public class RepositoryJpa<T extends Entite> implements Repository<T> {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("mySqlUnit");
+    private EntityManagerFactory emf ;
     protected EntityManager em;
+    private YamlService yamlService;
     protected Class<T> clazz;
 
     public RepositoryJpa(Class<T> clazz) {
         if (em == null) {
+            yamlService = new YamlServiceImpl();
+            Map <String , Object> map = yamlService.load();
+            emf = Persistence.createEntityManagerFactory(map.get("persistence").toString());
             this.em = emf.createEntityManager();
         }
         this.clazz = clazz;
