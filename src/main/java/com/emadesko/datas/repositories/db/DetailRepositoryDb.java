@@ -28,6 +28,7 @@ public class DetailRepositoryDb extends DetailMereRepositoryDb<Detail, Dette> im
         detail.setArticle(articleRepository.getById(rs.getInt("article_id")));
         detail.setCreateAt(rs.getDate("createAt").toLocalDate());
         detail.setUpdateAt(rs.getDate("updateAt").toLocalDate());
+        System.out.println(detail.getArticle());
         return detail;
     }
 

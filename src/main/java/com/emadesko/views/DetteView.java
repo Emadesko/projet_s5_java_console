@@ -61,7 +61,6 @@ public class DetteView extends View<Dette> {
                     }
                 } while (ok);
                 Detail detail = this.check(tabDetail, article);
-                montant += article.getPrix() * qte;
                 if (detail == null) {
                     tabDetail.add(new Detail(qte, article.getPrix(), article, null));
                 } else {
@@ -73,17 +72,23 @@ public class DetteView extends View<Dette> {
             }
             ok = super.choixSousMenu("Voulez vous ajouter un autre article? \n1- Oui \n2- Non", 2) == 1;
         } while (ok);
+        if (tabDetail.isEmpty()) {
+            return null;
+        }
         Dette dette= new Dette(montant, client);
         detteService.create(dette);
         client.getDettes().add(dette);
-        int choix=super.choixSousMenu("Voulez vous payer une partie du montant?\n1-Oui\n2-Non",2);
-        if (choix==1) {
-            paiementView.saisie(this, clientView, dette);
-        }
         for (Detail detail : tabDetail) {
+            montant += detail.getTotal();
             detail.setDette(dette);
             dette.getDetails().add(detail);
             detailView.getDetailService().create(detail);
+        }
+        dette.setMontant(montant);
+        detteService.update(dette);
+        int choix=super.choixSousMenu("Voulez vous payer une partie du montant?\n1-Oui\n2-Non",2);
+        if (choix==1) {
+            paiementView.saisie(this, clientView, dette);
         }
         return dette;
     }

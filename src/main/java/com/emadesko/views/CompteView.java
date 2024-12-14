@@ -88,7 +88,7 @@ public class CompteView extends View<Compte> {
             compte.setActive(!compte.isActive());
             compte.setUpdateAt(LocalDate.now());
             compteService.update(compte);
-            System.out.println("Activation du compte " + (compte.isActive() ? "activé" : "désactivé"));
+            System.out.println("Compte " + (compte.isActive() ? "activé" : "désactivé"));
         }
     }
 
@@ -117,7 +117,7 @@ public class CompteView extends View<Compte> {
                     }
                 }
                 if (entity != null) {
-                    System.out.println(entity);
+                    System.out.println("\n" + entity + "\n");
                 }
                 return entity;
             }

@@ -57,7 +57,6 @@ public class DemandeView extends View<Demande> {
                     }
                 } while (ok);
                 DetailDemande detailDemande = this.check(tabDetailDemande, article);
-                montant += article.getPrix() * qte;
                 if (detailDemande == null) {
                     tabDetailDemande.add(new DetailDemande(qte, article.getPrix(), article, null));
                 } else {
@@ -67,14 +66,20 @@ public class DemandeView extends View<Demande> {
             }
             ok = super.choixSousMenu("Voulez vous ajouter un autre article? \n1- Oui \n2- Non", 2) == 1;
         } while (ok);
-        Demande demande = new Demande(montant, client);
+        if (tabDetailDemande.isEmpty()) {
+            return null;
+        }
+        Demande demande = new Demande(0, client);
         demandeService.create(demande);
         client.getDemandes().add(demande);
         for (DetailDemande detailDemande : tabDetailDemande) {
+            montant += detailDemande.getTotal();
             detailDemande.setDemande(demande);
             demande.getDetailsDemandes().add(detailDemande);
             detailDemandeView.getDetailDemandeService().create(detailDemande);
         }
+        demande.setMontant(montant);
+        demandeService.update(demande);
         return demande;
     }
 
@@ -108,7 +113,7 @@ public class DemandeView extends View<Demande> {
                 if (choix == 1) {
                     List<Demande> demandesEnCours = demandeService.getDemandesByEtat(Etat.EnCours);
                     if (!demandesEnCours.isEmpty()) {
-                        Demande demande = super.select(demandesEnCours, "de la demande", "Aucune demande\n");
+                        Demande demande = super.select(demandesEnCours, "de la demande", "Aucune demande");
                         if (demande != null) {
                             choix = super.choixSousMenu("1- Accepter la demande \n2- Rejeter la demande \n3- Retour", 3);
                             if (choix == 1) {
@@ -123,9 +128,7 @@ public class DemandeView extends View<Demande> {
                                     }
                                 }
                                 if (qteNonDispo.isEmpty()) {
-                                    demande.setEtat(Etat.Acceptée);
-                                    demande.setUpdateAt(LocalDate.now());
-                                    demandeService.update(demande);
+                                    
                                     Dette dette = new Dette(demande.getMontant(), demande.getClient());
                                     detteView.getDetteService().create(dette);
                                     choix = super.choixSousMenu("Voulez vous payer une partie du montant?\n1-Oui\n2-Non",2);
@@ -142,6 +145,10 @@ public class DemandeView extends View<Demande> {
                                         dette.getDetails().add(detail);
                                         detailView.getDetailService().create(detail);
                                     }
+                                    demande.setEtat(Etat.Acceptée);
+                                    demande.setUpdateAt(LocalDate.now());
+                                    demandeService.update(demande);
+                                    System.out.println("Demande acceptée!!!!");
                                 }else{
                                     System.out.println("La demande ne peut pas être acceptée\n");
                                 }
@@ -149,6 +156,7 @@ public class DemandeView extends View<Demande> {
                                 demande.setEtat(Etat.Rejetée);
                                 demande.setUpdateAt(LocalDate.now());
                                 demandeService.update(demande);
+                                System.out.println("Demande rejetée!!!");
                             } else {
                                 System.out.println("Opération annulée.\n");
                             }

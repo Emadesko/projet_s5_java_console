@@ -89,6 +89,9 @@ public class View <T>{
                         ok = entity == null;
                     }
                 }
+                if (entity != null) {
+                    System.out.println("\n" + entity + "\n");
+                }
                 return entity;
             }
             return null;

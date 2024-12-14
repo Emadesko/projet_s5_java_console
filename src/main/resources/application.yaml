@@ -1,5 +1,11 @@
 persistence : "mySqlUnit"
 
 repository : 
-  client : com.emadesko.datas.repositories.jpa.ClientRepositoryJpa
-  compte : com.emadesko.datas.repositories.jpa.CompteRepositoryJpa
+  client : database
+  compte : database
+  article : database
+  dette : database
+  detail : database
+  demande : database
+  detailDemande : database
+  paiement : database

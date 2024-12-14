@@ -62,37 +62,37 @@ public class ClientView extends View<Client>{
 
     public Client chooseClient(List <Client> tab , String txt){
         this.emptyTabTxt="Aucun client " + txt + " compte";
-        Client client= selectByTelephone(tab);
+        Client client= selectBy(tab);
         this.emptyTabTxt="Aucun client";
         return client;
     }
 
-    public Client selectByTelephone(List<Client> tab) {
+    public Client selectBy(List<Client> tab) {
         if (tab.isEmpty()) {
             System.out.println(this.emptyTabTxt + " n'existe");
             return null;
         }else{
-            tab.stream().forEach(System.out::println);
-            System.out.println("Veuillez entrer le téléphone du client ou 0 pour annuler");
+            this.showList(tab, null);
+            System.out.println("Veuillez entrer le surnom du client ou 0 pour annuler");
             String telephone = scanner.nextLine();
             
             if (telephone.compareToIgnoreCase("0") != 0) {
-                Client entity = this.clientService.getClientByTelephone(telephone);
+                Client entity = this.clientService.getClientBySurnom(telephone);
                 boolean ok = entity == null;
                 while (ok) {
-                    System.out.println("Aucun client ne correspond à ce téléphone");
-                    System.out.println("Veuillez entrer le téléphone du client ou 0 pour annuler");
+                    System.out.println("Aucun client ne correspond à ce surnom");
+                    System.out.println("Veuillez entrer le surnom du client ou 0 pour annuler");
                     telephone = scanner.nextLine();
                     
                     if (telephone.compareToIgnoreCase("0") == 0) {
                         ok = false;
                     } else {
-                        entity = this.clientService.getClientByTelephone(telephone);
+                        entity = this.clientService.getClientBySurnom(telephone);
                         ok = entity == null;
                     }
                 }
                 if (entity != null) {
-                    System.out.println(entity);
+                    System.out.println("\n" + entity + "\n");
                 }
                 return entity;
             }
@@ -101,7 +101,7 @@ public class ClientView extends View<Client>{
     }
 
     public void searchClientByTelephone(DetteView detteview) {
-        Client client = this.selectByTelephone(this.clientService.getAll());
+        Client client = this.selectBy(this.clientService.getAll());
         if (client!= null) {
             client.setDettes(detteview.getDetteService().getDetteMeresByClient(client));
             System.out.println(client.show());

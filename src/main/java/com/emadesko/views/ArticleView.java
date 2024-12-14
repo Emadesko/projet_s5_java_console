@@ -88,7 +88,7 @@ public class ArticleView extends View<Article>{
             System.out.println(this.emptyTabTxt + " n'existe");
             return null;
         }else{
-            tab.stream().forEach(System.out::println);
+            this.showList(tab, null);
             System.out.println("Veuillez entrer le libelle de l'article ou 0 pour annuler");
             String libelle = scanner.nextLine();
             
@@ -108,7 +108,7 @@ public class ArticleView extends View<Article>{
                     }
                 }
                 if (entity != null) {
-                    System.out.println(entity);
+                    System.out.println("\n" + entity + "\n");
                 }
                 return entity;
             }
