@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.emadesko.core.repository.impl.RepositoryJpa;
 import com.emadesko.datas.entities.Client;
+import com.emadesko.datas.entities.Compte;
 import com.emadesko.datas.repositories.ClientRepository;
 
 public class ClientRepositoryJpa extends RepositoryJpa<Client> implements ClientRepository{
@@ -14,12 +15,12 @@ public class ClientRepositoryJpa extends RepositoryJpa<Client> implements Client
 
     @Override
     public Client getClientByTelephone(String telephone) {
-        return super.selectBy("telephone" + " LIKE :tel", "tel", telephone);
+        return super.selectBy("telephone LIKE :tel", "tel", telephone);
     }
 
     @Override
     public Client getClientBySurnom(String surnom) {
-        return super.selectBy("surname" + " LIKE :surnom", "surnom", surnom);
+        return super.selectBy("surname LIKE :surnom", "surnom", surnom);
     }
     
     @Override
@@ -27,5 +28,10 @@ public class ClientRepositoryJpa extends RepositoryJpa<Client> implements Client
         String valeur= with ? "NOT " : "";
         return em.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE compte_id IS " + valeur + "NULL", clazz).getResultList();
         
+    }
+    
+    @Override
+    public Client getClientByCompte(Compte compte) {
+        return super.selectBy("compte_id = :surnom", "surnom", compte.getId());
     }
 }

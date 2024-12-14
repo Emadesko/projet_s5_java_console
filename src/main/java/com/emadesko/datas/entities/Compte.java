@@ -21,7 +21,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = { "client" })
+@ToString(exclude = { "client","password"})
 @Entity
 @Table(name = "comptes")
 public class Compte extends Entite{

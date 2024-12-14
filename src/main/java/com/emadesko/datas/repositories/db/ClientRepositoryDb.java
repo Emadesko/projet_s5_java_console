@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.emadesko.core.repository.impl.RepositoryDb;
 import com.emadesko.datas.entities.Client;
+import com.emadesko.datas.entities.Compte;
 import com.emadesko.datas.repositories.ClientRepository;
 import com.emadesko.datas.repositories.CompteRepository;
 
@@ -26,6 +27,12 @@ public class ClientRepositoryDb extends RepositoryDb<Client> implements ClientRe
     @Override
     public Client getClientByTelephone(String telephone) {
         return this.getBy("telephone like ", telephone);
+    }
+    
+    
+    @Override
+    public Client getClientByCompte(Compte compte) {
+        return this.getBy("compte_id = ", compte.getId());
     }
 
     @Override
@@ -110,4 +117,5 @@ public class ClientRepositoryDb extends RepositoryDb<Client> implements ClientRe
         }
         return clients;
     }
+
 }

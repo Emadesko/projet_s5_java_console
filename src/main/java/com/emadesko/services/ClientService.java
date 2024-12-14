@@ -3,6 +3,7 @@ package com.emadesko.services;
 import java.util.List;
 
 import com.emadesko.datas.entities.Client;
+import com.emadesko.datas.entities.Compte;
 import com.emadesko.datas.repositories.ClientRepository;
 
 public class ClientService extends ServiceImpl<Client>{
@@ -20,6 +21,9 @@ public class ClientService extends ServiceImpl<Client>{
 
     public Client getClientBySurnom(String surnom){
         return this.clientRepository.getClientBySurnom(surnom);
+    }
+    public Client getClientByCompte(Compte compte){
+        return this.clientRepository.getClientByCompte(compte);
     }
 
     public List <Client> getClientsByAccountStatus(boolean with){

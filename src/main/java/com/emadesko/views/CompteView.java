@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.emadesko.datas.entities.Compte;
 import com.emadesko.datas.entities.Client;
 import com.emadesko.datas.enums.Role;
@@ -69,7 +71,7 @@ public class CompteView extends View<Compte> {
         } while (ok);
         password = super.obligatoire("Veuillez donneer le mot de passe de l'utilisateur");
 
-        Compte compte = new Compte(login, email, password, nom, prenom, role);
+        Compte compte = new Compte(login, email, this.hashPassword(password), nom, prenom, role);
 
         compteService.create(compte);
         System.out.println("Compte créé avec succès");
@@ -150,6 +152,43 @@ public class CompteView extends View<Compte> {
             listComptesActifs();
         }
         return choix;
+    }
+
+    public Compte connexion(){
+        String login, password;
+        boolean ok;
+        Compte compte;
+        int choix;
+        do {
+            login = super.obligatoire("Entrez votre login");
+            compte = compteService.getCompteByLogin(login);
+            ok = compte == null;
+            if (ok) {
+                choix = super.choixSousMenu("Login invalid!!!!  \n1- Reéssayer \n2- Quitter",2);
+                if (choix == 2){
+                    return null;
+                }
+            }
+        } while (ok);
+        do {
+            password = super.obligatoire("Entrez votre password");
+            ok = !this.verifyPassword(password, compte.getPassword());
+            if (ok) {
+                choix = super.choixSousMenu("Mot de passe invalid!!!!  \n1- Reéssayer \n2- Quitter",2);
+                if (choix == 2){
+                    return null;
+                }
+            }
+        } while (ok);
+        return compte;
+    }
+
+    public String hashPassword(String password) {
+        return BCrypt.hashpw(password,BCrypt.gensalt());
+    }
+
+    public boolean verifyPassword(String password, String hashedPassword) {
+        return BCrypt.checkpw(password, hashedPassword);
     }
 
 }

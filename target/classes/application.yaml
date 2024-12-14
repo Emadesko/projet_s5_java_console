@@ -1,11 +1,11 @@
 persistence : "mySqlUnit"
 
 repository : 
-  client : database
-  compte : database
-  article : database
-  dette : database
-  detail : database
-  demande : database
-  detailDemande : database
-  paiement : database
+  client : jpa
+  compte : jpa
+  article : jpa
+  dette : jpa
+  detail : jpa
+  demande : jpa
+  detailDemande : jpa
+  paiement : jpa
